@@ -16,7 +16,7 @@ sidebar <- dashboardSidebar(
              menuSubItem("Upset", tabName = "upt", icon = icon("th"))
     ),
     menuItem(text = "Clasificacion y ranking", tabName = "cry", icon = icon("th"),
-             menuSubItem("Bar plot", tabName = "bp", icon = icon("th"))
+             menuSubItem("Bar chart", tabName = "bc", icon = icon("th"))
     ),
     menuItem(text = "Parte De un todo", tabName = "pdt", icon = icon("th"),
              menuSubItem("Pie chart", tabName = "pc", icon = icon("th")),
