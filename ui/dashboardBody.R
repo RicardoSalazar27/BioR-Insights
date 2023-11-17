@@ -23,17 +23,6 @@ body <- dashboardBody(
       
       tabName = "sct",
       
-      # Selector para el eje x
-<<<<<<< HEAD
-      selectInput(inputId = "sctpx", label = "Eje x", choices = NULL),
-      # Selector para el eje y
-      selectInput(inputId = "sctpy", label = "Eje y", choices = NULL),
-      # Selector para el color de la línea en el gráfico
-      selectInput(inputId = "stclineColor", label = "Color de la línea",
-                  choices = c("Rojo" = "red", "Azul" = "blue", "Verde" = "green")),
-      
-      downloadButton("sctDownloadPlot", "Descargar Gráfico"),
-=======
       selectInput(inputId = "sctx", label = "Eje x", choices = NULL),
       # Selector para el eje y
       selectInput(inputId = "scty", label = "Eje y", choices = NULL),
@@ -44,8 +33,8 @@ body <- dashboardBody(
       downloadButton("sctDownloadPlot", "Descargar Gráfico"),
       
       fileInput(inputId = "sctFile",label =  "Cargar Archivo", accept = ".csv,.xlsx", placeholder ="DIEGO ES GAY"),
->>>>>>> desarrollo
-      # Salida para el gráfico de dispersión
+
+            # Salida para el gráfico de dispersión
       plotlyOutput("ScatterPlot"),
       # Salida para la tabla interactiva
       dataTableOutput("sctDataTable")
