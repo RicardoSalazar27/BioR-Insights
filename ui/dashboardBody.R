@@ -67,10 +67,9 @@ body <- dashboardBody(
     ###################################
     tabItem(
       
-      tabName = "bp",
+      tabName = "bc",
       
-      h1("Bar plot")
-      
+      h1("Bar chart"),
       
     ),
     
