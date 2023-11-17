@@ -27,21 +27,23 @@ body <- dashboardBody(
     
     tabItem(
       
-      tabName = "stp",
+      tabName = "sct",
       
       # Selector para el eje x
-      selectInput(inputId = "slitpx", label = "Eje x", choices = NULL),
+      selectInput(inputId = "sctx", label = "Eje x", choices = NULL),
       # Selector para el eje y
-      selectInput(inputId = "slitpy", label = "Eje y", choices = NULL),
+      selectInput(inputId = "scty", label = "Eje y", choices = NULL),
       # Selector para el color de la línea en el gráfico
-      selectInput(inputId = "lineColor", label = "Color de la línea",
+      selectInput(inputId = "sctLineColor", label = "Color de la línea",
                   choices = c("Rojo" = "red", "Azul" = "blue", "Verde" = "green")),
       
-      downloadButton("downloadPlot", "Descargar Gráfico"),
+      downloadButton("sctDownloadPlot", "Descargar Gráfico"),
+      
+      fileInput(inputId = "sctFile",label =  "Cargar Archivo", accept = ".csv,.xlsx", placeholder ="DIEGO ES GAY"),
       # Salida para el gráfico de dispersión
-      plotOutput("ScatterPlot"),
+      plotlyOutput("ScatterPlot"),
       # Salida para la tabla interactiva
-      dataTableOutput("dataTable")
+      dataTableOutput("sctDataTable")
     ),
     
     
@@ -58,7 +60,7 @@ body <- dashboardBody(
       
       tabName = "upt",
       
-      h1("UpSet")
+      plotlyOutput("UpSetPlot")
       
     ),
     
@@ -70,7 +72,14 @@ body <- dashboardBody(
       h1("Bar plot")
       
       
-    )
+    ),
+    
+    ##################################
+    
+    tabItem(
+      tabName="glp",
+      
+      )
     
   )
 )
