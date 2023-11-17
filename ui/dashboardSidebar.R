@@ -11,7 +11,7 @@ sidebar <- dashboardSidebar(
     
     menuItem(text = "Relaciones Y Coorelacion", tabName = "ryc", icon = icon("dashboard"),
              menuSubItem("Heatmap", tabName = "htm", icon = icon("th")),
-             menuSubItem("ScatterPlot", tabName = "stp", icon = icon("th")),
+             menuSubItem("ScatterPlot", tabName = "sct", icon = icon("th")),
              menuSubItem("Venn diagram", tabName = "vd", icon = icon("th")),
              menuSubItem("Upset", tabName = "upt", icon = icon("th"))
     ),
@@ -30,8 +30,6 @@ sidebar <- dashboardSidebar(
              menuSubItem("Choropleth map", tabName = "cm", icon = icon("th")),
              menuSubItem("Connection", tabName = "connt", icon = icon("th")),
              menuSubItem("Bubble map", tabName = "bmp", icon = icon("th"))
-    ),
-    
-    fileInput(inputId = "file",label =  "Cargar Archivo", accept = ".csv,.xlsx", placeholder ="DIEGO ES GAY")
+    )
   )
 )
