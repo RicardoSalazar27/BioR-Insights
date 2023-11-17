@@ -8,11 +8,6 @@ library(ggplot2)
 library(plotly)
 library(DT)
 
-# Cargar el código del servidor desde scatterplot.r
-# source("Graficos/Clasificacion Y Rango/scatterplot.R")
-# source("Graficos/Clasificacion Y Rango/upset.R")
-# source("Graficos/Evolucion Y Cambios en el tiempo/GraficoDeLineasYPuntos.R")
-
 # Cargar el código de los nuevos archivos
 source("ui/dashboardHeader.R")
 source("ui/dashboardSidebar.R")
@@ -27,8 +22,6 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output, session) {
-  
-  
   
   
   ######################       SCATTERPLOT        #########################
@@ -91,6 +84,8 @@ server <- function(input, output, session) {
                 )
               ))
   })
+  
+  
   
   
   ################      HEATMAP      #####################
