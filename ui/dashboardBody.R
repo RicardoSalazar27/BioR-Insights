@@ -160,7 +160,23 @@ body <- dashboardBody(
     
     #####################       BASIC CHARTS        ##################
     tabItem(
-      tabName = "lp"
+      tabName = "lp",
+      fluidRow(
+        column(width = 3,
+               fileInput("lp_file", "Subir archivo CSV")
+        ),
+        column(width = 3,
+               checkboxInput("lp_header", "¿El archivo tiene encabezados?", TRUE)
+        ),
+        column(width = 3,
+               selectInput("lpx_column", "Seleccionar columna para el eje X", "")
+        ),
+        column(width = 3,
+               selectInput("lpy_column", "Seleccionar columna para el eje Y", "")
+        )
+      ),
+      plotlyOutput("lp_plot"),
+      DTOutput("lp_table")
     ),
     #--------------------------------------------------------------------------#
     tabItem(
@@ -199,8 +215,16 @@ body <- dashboardBody(
     
     #####################     Statistical Charts      ##################
     tabItem(
-      tabName = "his"
+      tabName = "his",
+      fluidRow(
+        column(width = 4,fileInput("hisfile", "Selecciona un archivo CSV")),
+        column(width = 4,selectInput("hiscolumna", "Selecciona una columna", "")),
+        column(width = 4,helpText("Nota: Asegúrate de que el archivo tenga una columna numérica para el histograma."))
+      ),
+      plotlyOutput("histograma"),
+      dataTableOutput("hisdataTable")
     ),
+    
     #--------------------------------------------------------------------------#
     tabItem(
       tabName = "bp",
