@@ -215,9 +215,81 @@ server <- function(input, output, session) {
     dpdata()
   })
   
-  ################      LINE PLOT        #####################
-  ################      HISTOGRAM        #####################
   
+  
+  
+  ################      LINE PLOT        #####################
+  observe({
+    req(input$lp_file)
+    
+    # Lee el archivo CSV
+    lp_data <- read.csv(input$lp_file$datapath, header = input$lp_header)
+    
+    # Actualiza las opciones de las columnas
+    updateSelectInput(session, "lpx_column", choices = colnames(lp_data))
+    updateSelectInput(session, "lpy_column", choices = colnames(lp_data))
+  })
+  
+  output$lp_plot <- renderPlotly({
+    req(input$lp_file, input$lpx_column, input$lpy_column)
+    
+    # Lee el archivo CSV
+    lp_data <- read.csv(input$lp_file$datapath, header = input$lp_header)
+    
+    # Crea el gráfico de líneas
+    lpfig <- plot_ly(lp_data, x = ~lp_data[[input$lpx_column]], y = ~lp_data[[input$lpy_column]], type = 'scatter', mode = 'lines') %>%
+      layout(
+        xaxis = list(title = input$lpx_column),
+        yaxis = list(title = input$lpy_column),
+        title = ""
+      ) %>%
+      add_lines(line = list(color = 'blue', width = 2, dash = 'solid'))
+    
+    lpfig <- lpfig %>% config(scrollZoom = TRUE)
+  })
+  
+  output$lp_table <- renderDT({
+    req(input$lp_file)
+    
+    # Lee el archivo CSV
+    lp_data <- read.csv(input$lp_file$datapath, header = input$lp_header)
+    
+    # Muestra la tabla de datos
+    datatable(lp_data)
+  })
+  
+  
+  
+  
+  
+  ################      HISTOGRAM        #####################
+  # Lee el archivo CSV y actualiza las opciones de columna
+  hisdatos <- reactive({
+    req(input$hisfile)
+    read.csv(input$hisfile$datapath)
+  })
+  
+  observe({
+    col_options <- names(hisdatos())
+    updateSelectInput(session, "hiscolumna", choices = col_options)
+  })
+  
+  # Crea el histograma
+  output$histograma <- renderPlotly({
+    req(input$hiscolumna)
+    
+    # Use `req` para asegurarse de que la columna seleccionada esté presente
+    
+    hisfig <- plot_ly(hisdatos(), x = ~get(input$hiscolumna), type = "histogram") %>%
+      layout(xaxis = list(title = input$hiscolumna)) %>%
+      config(scrollZoom = TRUE)
+    
+    hisfig
+  })
+  
+  output$hisdataTable <- renderDataTable({
+    hisdatos()
+  })
   
   
   
@@ -256,13 +328,8 @@ server <- function(input, output, session) {
     names(bpcategory_var)[numeric_cols]
   }
   
-  
-  
-  
-  
 
   ################      GROUPBY       #####################
-
   # Cargar el archivo CSV cuando se seleccione
   gbdata <- reactive({
     req(input$gbfile)
