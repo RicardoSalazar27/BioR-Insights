@@ -28,8 +28,18 @@ sidebar <- dashboardSidebar(
     ),
     menuItem(text = "Mapas", tabName = "maps", icon = icon("th"),
              menuSubItem("Choropleth map", tabName = "cm", icon = icon("th")),
-             menuSubItem("Connection", tabName = "connt", icon = icon("th")),
              menuSubItem("Bubble map", tabName = "bmp", icon = icon("th"))
-    )
+    ),
+    menuItem(text = "Basic Charts", tabName = "bsch",icon = icon("th"),
+             menuSubItem("LinePlots", tabName = "lp", icon = icon("th")),
+             menuSubItem("DotPlots", tabName = "dp", icon = icon("th"))
+    ),
+    menuItem(text = "Statistical Charts", tabName = "bsch",icon = icon("th"),
+             menuSubItem("Histogram", tabName = "his", icon = icon("th")),
+             menuSubItem("BoxPlot", tabName = "bp", icon = icon("th"))
+    ),
+    menuItem(text = "Tranform", tabName = "trans",icon = icon("th"),
+             menuSubItem("GroupBy", tabName = "gb", icon = icon("th"))
   )
+)
 )

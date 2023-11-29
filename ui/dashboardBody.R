@@ -10,6 +10,9 @@ body <- dashboardBody(
       h1("")
     ),
     
+    
+    #################   Relaciones y Correlación  ####################
+    
     tabItem(
       
       tabName = "htm",
@@ -19,28 +22,35 @@ body <- dashboardBody(
       
     ),
     
+    #--------------------------------------------------------------------------#
+    
     tabItem(
       
       tabName = "sct",
       
-      selectInput(inputId = "sctx", label = "Eje x", choices = NULL),
-      # Selector para el eje y
-      selectInput(inputId = "scty", label = "Eje y", choices = NULL),
-      # Selector para el color de la línea en el gráfico
-      selectInput(inputId = "sctLineColor", label = "Color de la línea",
-                  choices = c("Rojo" = "red", "Azul" = "blue", "Verde" = "green")),
+      fluidRow(
+        column(width = 3,
+               fileInput(inputId = "sctFile", label = "Cargar Archivo", accept = ".csv,.xlsx", placeholder = "DIEGO ES GAY")
+        ),
+        column(width = 3,
+               selectInput(inputId = "sctcolorColumn", label = "Columna para Colores", choices = NULL)
+        ),
+        column(width = 3,
+               selectInput(inputId = "slitpx", label = "Eje x", choices = NULL)
+        ),
+        column(width = 3,
+               selectInput(inputId = "slitpy", label = "Eje y", choices = NULL)
+        )
+      )
+      ,
       
-      downloadButton("sctDownloadPlot", "Descargar Gráfico"),
-      
-      fileInput(inputId = "sctFile",label =  "Cargar Archivo", accept = ".csv,.xlsx", placeholder ="DIEGO ES GAY"),
-
-            # Salida para el gráfico de dispersión
+      # Salida para el gráfico de dispersión
       plotlyOutput("ScatterPlot"),
       # Salida para la tabla interactiva
-      dataTableOutput("sctDataTable")
+      dataTableOutput("sctdataTable")
     ),
     
-    
+    #--------------------------------------------------------------------------#
     tabItem(
       
       tabName = "vd",
@@ -49,7 +59,7 @@ body <- dashboardBody(
       
     ),
     
-    ####################################
+    #--------------------------------------------------------------------------#
     tabItem(
       
       tabName = "upt",
@@ -58,21 +68,145 @@ body <- dashboardBody(
       
     ),
     
-    ###################################
+    
+    
+    
+    #################   Clasificación, rango (ranking)  ####################
+    
     tabItem(
       
       tabName = "bc",
       
-      h1("Bar chart"),
-      
+      fluidRow(
+        column(width = 3,
+               fileInput(inputId = "bc_file", label = "Cargar archivo CSV", accept = ".csv")
+        ),
+        column(width = 3,
+               selectInput(inputId = "bc_x_col", label = "Seleccionar columna para el eje X", choices = NULL)
+        ),
+        column(width = 3,
+               selectInput(inputId = "bc_y_col", label = "Seleccionar columna para el eje Y", choices = NULL)
+        ),
+        column(width = 3,
+               selectInput(inputId = "bc_color_col", label = "Seleccionar columna para la coloración", "")
+        )
+      ),
+      plotlyOutput("bc_bar_chart"),
+      dataTableOutput("bcdataTable")
     ),
     
-    ##################################
     
+    
+    
+    
+    
+    ####################       Parte de un todo    ##########################
+    #################   Evolucion y cambios en el tiempo     #####################
+    
+    
+    
+    
+    
+    #############################     Mapas       #############################
     tabItem(
-      tabName="glp",
-      
-      )
+      tabName = "bmp",
+      fluidRow(
+        column(width = 3,
+               selectInput("bbmx_var", "Seleccionar variable para el eje X", "")
+        ),
+        column(width = 3,
+               selectInput("bbmy_var", "Seleccionar variable para el eje Y", "")
+        ),
+        column(width = 3,
+               selectInput("bbmcolor_var", "Seleccionar variable para la coloración", "")
+        ),
+        column(width = 3,
+               selectInput("bbmsize_var", "Seleccionar variable para el tamaño de las burbujas", "")
+        )
+      ),
+      fileInput("bbm_file", "Cargar archivo CSV"),
+      plotlyOutput("bubbleChart"),
+      DTOutput("bubbledataTable")
+    ),
+    #--------------------------------------------------------------------------#
     
+    
+    
+    
+    
+    
+    #####################       BASIC CHARTS        ##################
+    tabItem(
+      tabName = "lp"
+    ),
+    #--------------------------------------------------------------------------#
+    tabItem(
+      tabName = "dp",
+      fluidRow(
+        column(width = 3,
+               fileInput("dpfile", "Subir archivo CSV")
+        ),
+        column(width = 3,
+               selectInput("dpx_axis", "Seleccionar eje x", "")
+        ),
+        column(width = 3,
+               selectInput("dpy_axis", "Seleccionar eje y", "")
+        ),
+        column(width = 3,
+               selectInput("dpadditional_trace", "Agregar traza adicional", "")
+        )
+      ),
+      fluidRow(
+        column(width = 3,
+               textInput("dptextinput","ingresa el titulo de tu grafica",placeholder = "titulo")
+        ),
+        column(width = 3,
+               actionButton("dpupdate_plot", "Actualizar gráfico")
+        )
+      ),
+      plotlyOutput("customDotPlot"),
+      dataTableOutput("dpdataTable")
+    ),
+    
+    
+    
+    
+    
+    
+    
+    #####################     Statistical Charts      ##################
+    tabItem(
+      tabName = "his"
+    ),
+    #--------------------------------------------------------------------------#
+    tabItem(
+      tabName = "bp",
+      fluidRow(
+        column(width = 3,fileInput("bpfile", "Seleccionar archivo CSV", accept = ".csv")),
+        column(width = 3,selectInput("bpbpx_axis", "Seleccionar eje X:", "")),
+        column(width = 3,selectInput("bpy_axis", "Seleccionar eje Y:", "")),
+        column(width = 3,selectInput("bpcategory_var", "Seleccionar variable categórica:", ""))
+      ),
+      plotlyOutput("bpboxplot"),
+      DTOutput("bp_dataTable")
+    ),
+    
+    
+    
+    
+    #####################     TRANSFORM      ####################
+    tabItem(
+      tabName = "gb",
+      fluidRow(
+        column(width = 3,fileInput("gbfile", "Subir archivo CSV")),
+        column(width = 3,selectInput("gbx_axis", "Selecciona el eje X:", "")),
+        column(width = 3,selectInput("gby_axis", "Selecciona el eje Y:", "")),
+        column(width = 3,selectInput("gbagrupar", "Agrupar por:", ""))
+      ),
+      plotlyOutput("group_vy"),
+      dataTableOutput("gbdataTable")
+    )
+    
+    
+    )
   )
-)
