@@ -102,7 +102,30 @@ body <- dashboardBody(
     
     ####################       Parte de un todo    ##########################
     #################   Evolucion y cambios en el tiempo     #####################
-    
+    tabItem(
+      tabName = "slp",
+      fluidRow(
+        column(width = 3,
+               fileInput("slp_file",
+                 label = "Select a CSV file",
+                 accept = (".csv"))
+               ),
+        column(width = 3,
+               selectInput(
+                 inputId = "slp_column_y",
+                 label = "Select a Column",
+                 choices = NULL
+               )),
+        column(width = 3,
+               checkboxInput(
+                 "slp_checkbox",
+                 "Enable Scatter Type",
+                 value = TRUE
+               )),
+        ),
+      plotlyOutput("slp_plot"),
+      DTOutput("slp_table")
+    ),
     
     
     

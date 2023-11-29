@@ -24,7 +24,7 @@ sidebar <- dashboardSidebar(
              menuSubItem("Denograma", tabName = "den", icon = icon("th"))
     ),
     menuItem(text = "Evolucion en el tiempo", tabName = "evt", icon = icon("th"),
-             menuSubItem("Grafico de lineas y puntos", tabName = "glp", icon = icon("th"))
+             menuSubItem("Grafico de lineas y puntos", tabName = "slp", icon = icon("th"))
     ),
     menuItem(text = "Mapas", tabName = "maps", icon = icon("th"),
              menuSubItem("Choropleth map", tabName = "cm", icon = icon("th")),

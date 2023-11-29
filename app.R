@@ -118,6 +118,44 @@ server <- function(input, output, session) {
   ################      STACKED BARPLOT        #####################
   ################      DENOGRAM        #####################
   ################      Scatter And Line Plot       #####################
+  
+  slp_data <- reactive({
+    req(input$slp_file)
+    read.csv(input$slp_file$datapath)
+  })
+  
+  observe({
+    print(names(slp_data()))
+    updateSelectInput(session, "slp_column_y", choices = names(slp_data()))
+  })
+  
+  output$slp_plot <- renderPlotly({
+    req(input$slp_column_y %in% names(slp_data()))
+    
+    slp_x <- seq_len(nrow(slp_data()))
+    slp_trace_0 <- rnorm(nrow(slp_data()), mean = 5)
+    slp_trace_1 <- rnorm(nrow(slp_data()), mean = 0)
+    slp_trace_2 <- rnorm(nrow(slp_data()), mean = -5)
+    
+    slp_scatter_type <- if (input$slp_checkbox) 'scatter' else 'scattergl'
+    
+    slp_fig <- plot_ly(x = ~slp_x, y = ~slp_data()[, input$slp_column_y], mode = 'lines', name = input$slp_column_y, type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste(input$slp_column_y, ": ", slp_data()[, input$slp_column_y]))
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_0, name = 'Line', mode = 'lines', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_0: ', slp_trace_0))
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_1, name = 'Line+Marker', mode = 'lines+markers', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_1: ', slp_trace_1))
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_2, name = 'Marker', mode = 'markers', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_2: ', slp_trace_2))
+    
+    slp_fig <- slp_fig %>% layout(
+      title = paste("Scatter Plot of", input$slp_column_y),
+      xaxis = list(title = "Index"),
+      yaxis = list(title = input$slp_column_y)
+    )
+    return(slp_fig)
+  })
+  
+  output$slp_table <- renderDT({
+    datatable(slp_data())
+  })
+
   ################      choropleth map       #####################
   
   
