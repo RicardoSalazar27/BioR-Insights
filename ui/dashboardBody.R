@@ -63,8 +63,17 @@ body <- dashboardBody(
     tabItem(
       
       tabName = "upt",
+      fluidRow(
+        column(width = 4,fileInput("usfile", "Seleccione un archivo CSV")
+        ),
+        column(width = 4,selectInput("usvar_set", "Seleccione las variables para el UpSet", choices = NULL, multiple = TRUE)
+        ),
+        column(width = 4,actionButton("update_plot", "Actualizar Gráfico"))
+      ),
+      #downloadButton("download_plot", "Descargar Gráfico"),
       
-      plotlyOutput("UpSetPlot")
+      plotOutput("upsetPlot"),
+      DTOutput("upsetTable")
       
     ),
     

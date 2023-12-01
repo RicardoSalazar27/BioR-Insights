@@ -3,6 +3,5 @@
 
 header <- dashboardHeader(
 
-  title = tags$a(href='http://mycompanyishere.com',
-                 tags$img(src='logo333.png',height = 29))
+  title = tags$p(tags$img(src='logo333.png',height = 29))
 )

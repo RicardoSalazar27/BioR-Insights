@@ -68,10 +68,64 @@ server <- function(input, output, session) {
   
   ################      HEATMAP      #####################
   ################      VENNDIAGRAM        #####################
+  
+  
+  
+  
+  
   ################      UPSET        #####################
   
+  # Almacenar los datos cargados
+  usdata <- reactive({
+    req(input$usfile)
+    read.csv(input$usfile$datapath)
+  })
   
+  # Actualizar las opciones de las variables para el gráfico UpSet
+  observe({
+    usvar_choices <- names(usdata())
+    updateSelectInput(session, "usvar_set", choices = usvar_choices)
+  })
   
+  # Crear el gráfico UpSet
+  output$upsetPlot <- renderPlot({
+    req(input$update_plot)
+    
+    if (is.null(input$usvar_set) || length(input$usvar_set) < 2) {
+      return(NULL)
+    }
+    
+    # Seleccionar las variables elegidas por el usuario
+    selected_vars <- usdata() %>% select(input$usvar_set)
+    
+    # Crear el gráfico UpSetR y ordenar "intersection size" de manera decreciente
+    upset(selected_vars, main.bar.color = "gray30", matrix.color = "lightgray", order.by = "freq", decreasing = TRUE)
+  })
+  
+  # Crear la tabla interactiva para visualizar el contenido del archivo cargado
+  output$upsetTable <- renderDT({
+    datatable(usdata())  # Puedes ajustar el número de filas por página según sea necesario
+  })
+  
+  # # Descargar el gráfico al hacer clic en el botón
+  # output$download_plot <- downloadHandler(
+  #   filename = function() {
+  #     paste("upset_plot", Sys.Date(), ".png", sep = "")
+  #   },
+  #   content = function(file) {
+  #     # Guardar el gráfico en formato png
+  #     g <- renderPlot({
+  #       plot_ly(
+  #         type = "bar",
+  #         x = ~`Var1`,
+  #         y = ~`n`,
+  #         data = upset_plot_data$plot,
+  #         color = ~`Var1`
+  #       )
+  #     })
+  #     ggsave(file, plot = g(), device = "png", width = 8, height = 6, units = "in")
+  #   }
+  # )
   
   
   ################      BARCHART        #####################
