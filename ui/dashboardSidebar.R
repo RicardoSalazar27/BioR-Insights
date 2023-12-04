@@ -13,7 +13,7 @@ sidebar <- dashboardSidebar(
     menuItem(text = "Relaciones Y Coorelacion", tabName = "ryc", icon = icon("dashboard"),
              menuSubItem("Heatmap", tabName = "htm", icon = icon("th")),
              menuSubItem("ScatterPlot", tabName = "sct", icon = tags$img(src='scatter-chart.png',height=15)),
-             menuSubItem("Venn diagram", tabName = "vd", icon = tags$img(src='VennDiagram.png',height=15)),
+             menuSubItem("Venn diagram", tabName = "vd4", icon = tags$img(src='VennDiagram.png',height=15)),
              menuSubItem("Upset", tabName = "upt", icon = icon("th"))
     ),
     menuItem(text = "Clasificacion y ranking", tabName = "cry", icon = icon("th"),

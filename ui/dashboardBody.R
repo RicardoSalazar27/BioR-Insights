@@ -176,12 +176,27 @@ body <- dashboardBody(
     #--------------------------------------------------------------------------#
     tabItem(
       
-      tabName = "vd",
+      tabName = "vd4",
       
-      h1("Venn Diagram"), tableOutput("venn_table")
-      
-    ),
-    
+      fluidRow(
+        column(width = 3,
+               fileInput(inputId = "vd4_file", "Upload CSV file")
+        ),
+        column(width = 3,
+               selectInput(inputId = "vd4_colA", "Column A", "")
+        ),
+        column(width = 3,
+               selectInput(inputId = "vd4_colB", "Column B", "")
+        ),
+        column(width = 3,
+               selectInput(inputId = "vd4_colC", "Column C", "")
+        ),
+        column(width = 3,
+               selectInput(inputId = "vd4_colD", "Column D", "")
+      )),
+      plotOutput("vd4vennPlot"),
+      DTOutput("vd4dtable")
+        ),
     #--------------------------------------------------------------------------#
     tabItem(
       
@@ -234,8 +249,6 @@ body <- dashboardBody(
     
     ####################       Parte de un todo    ##########################
     #################   Evolucion y cambios en el tiempo     #####################
-    
-    
     
     
     

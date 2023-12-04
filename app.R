@@ -5,6 +5,7 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(shinyWidgets)
 library(ggplot2)
+library(ggVennDiagram)
 library(plotly)
 library(DT)
 
@@ -67,10 +68,43 @@ server <- function(input, output, session) {
   
   
   ################      HEATMAP      #####################
-  ################      VENNDIAGRAM        #####################
-  
-  
-  
+  ################      4VENNDIAGRAM        #####################
+ 
+    vd4_data <- reactive({
+      req(input$vd4_file) 
+      read.csv(input$vd4_file$datapath)
+    })
+    
+    observe({
+      updateSelectInput(session, "vd4_colA", choices = colnames(vd4_data()))
+      updateSelectInput(session, "vd4_colB", choices = colnames(vd4_data()))
+      updateSelectInput(session, "vd4_colC", choices = colnames(vd4_data()))
+      updateSelectInput(session, "vd4_colD", choices = colnames(vd4_data()))
+    })
+    
+    output$vd4vennPlot <- renderPlot({
+      vd4_col_names <- c(
+        input$vd4_colA,
+        input$vd4_colB,
+        input$vd4_colC,
+        input$vd4_colD
+      )
+      
+      vd4venn_plot <- ggVennDiagram(
+        x = list(
+          A = vd4_data()[, vd4_col_names[1]],
+          B = vd4_data()[, vd4_col_names[2]],
+          C = vd4_data()[, vd4_col_names[3]],
+          D = vd4_data()[, vd4_col_names[4]]
+        ),
+        category.names = vd4_col_names
+      )
+      
+      vd4venn_plot + scale_fill_distiller(palette = "Set1")
+    })
+    output$vd4dtable <- renderDT({
+      datatable(vd4_data())
+    })
   
   
   ################      UPSET        #####################
