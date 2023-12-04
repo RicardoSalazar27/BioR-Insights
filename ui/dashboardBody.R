@@ -6,8 +6,132 @@ body <- dashboardBody(
   tabItems(
   
     tabItem(
-      tabName = "wbr"
-    ),
+      tabName = "wbr",
+      tags$div(
+        class = "page-container",
+        tags$div(
+          class = "custom-header",
+          tags$img(src = "logo2.png", class ="logop"),
+          tags$div(
+            tags$div("BioR Insights", class = "custom-h1"),
+            tags$div("Transformando el Análisis Bioinformático", class = "custom-sub")
+          , class = "titulosimg"),
+        ),
+        
+        tags$div(
+          class = "custom-section",
+          tags$div(
+            class = "custom-p",
+            "Bienvenido a ",
+            tags$span("BioR Insights", class = "highlight-text"),
+            ", la plataforma que simplifica y democratiza el análisis de datos biológicos. 
+        En un mundo donde la bioinformática desempeña un papel crucial, hemos creado una herramienta 
+        potente pero fácil de usar para que tanto expertos como principiantes exploren el vasto mundo de la 
+        información genómica."
+          ),
+          
+          tags$div(
+            class = "custom-p",
+            "Enfrentamos el desafío de hacer que la bioinformática sea ",
+            tags$span("accesible", class = "highlight-text"),
+            " para todos. Nuestra interfaz intuitiva te permite cargar conjuntos de datos biológicos con facilidad 
+        y configurar análisis de manera sencilla, sin necesidad de conocimientos especializados."
+          ),
+          
+          tags$div(
+            class = "custom-p",
+            "¿Qué te ofrece ",
+            tags$span("BioR Insights", class = "highlight-text"),
+            "?"
+          ),
+          
+          tags$ul(
+            class = "custom-list",
+            tags$li(
+              tags$span("Análisis de Expresión Génica:", class = "highlight-text"),
+              " Comprende la actividad de los genes de manera fácil y efectiva."
+            ),
+            tags$li(
+              tags$span("Agrupamiento Jerárquico:", class = "highlight-text"),
+              " Explora patrones y relaciones en tus datos biológicos."
+            ),
+            tags$li(
+              tags$span("Visualizaciones Impactantes:", class = "highlight-text"),
+              " Gráficos y representaciones visuales para interpretar resultados de manera rápida."
+            ),
+            tags$li(
+              tags$span("Exportación Versátil:", class = "highlight-text"),
+              " Exporta resultados en formatos como CSV, imágenes y documentos PDF."
+            )
+          ),
+          
+          tags$div(
+            class = "custom-p",
+            "En ",
+            tags$span("BioR Insights", class = "highlight-text"),
+            ", nos apasiona acelerar la ",
+            tags$span("investigación científica", class = "highlight-text"),
+            " al hacer que las herramientas de análisis sean más accesibles. Nuestro enfoque no solo ahorra tiempo, 
+        sino que también optimiza los recursos, permitiendo decisiones más rápidas y fundamentadas en la investigación biológica y médica."
+          )
+        ),
+        
+        tags$style(HTML("
+      .page-container {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: black;
+      }
+
+      .custom-header {
+        color: black;
+        margin-left: 4%;
+        display: flex;
+        font-size: 200%;
+      }
+
+      .logop {
+        max-width: 120px;
+        margin-right: 10px;
+      }
+      
+      .titulosimg{
+        align-self : center;
+      }
+
+      .custom-section {
+            max-width: 90%;
+            margin: 2% auto;
+            pading : 2%
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+      }
+
+      .custom-h1 {
+        color: rgb(26, 188, 156);
+        margin-bottom: 1%;
+        font-size : 90%;
+      }
+      
+      .custom-p {
+        line-height: 1.6;
+        font-size: 110%;
+      }
+
+      .highlight-text {
+        color: #222d32;
+        font-weight: bold;
+      }
+      
+      .custom-list li {
+         margin :1%;
+         font-size : 105%;
+      }
+    " )
+     )
+    )
+   ),
     
     
     #################   Relaciones y Correlación  ####################
@@ -109,32 +233,8 @@ body <- dashboardBody(
     
     
     ####################       Parte de un todo    ##########################
-  
     #################   Evolucion y cambios en el tiempo     #####################
-    tabItem(
-      tabName = "slp",
-      fluidRow(
-        column(width = 3,
-               fileInput("slp_file",
-                         label = "Select a CSV file",
-                         accept = (".csv"))
-        ),
-        column(width = 3,
-               selectInput(
-                 inputId = "slp_column_y",
-                 label = "Select a Column",
-                 choices = NULL
-               )),
-        column(width = 3,
-               checkboxInput(
-                 "slp_checkbox",
-                 "Enable Scatter Type",
-                 value = TRUE
-               )),
-      ),
-      plotlyOutput("slp_plot"),
-      DTOutput("slp_table")
-    ),
+    
     
     
     
@@ -246,6 +346,9 @@ body <- dashboardBody(
       plotlyOutput("bpboxplot"),
       DTOutput("bp_dataTable")
     ),
+    
+    
+    
     
     #####################     TRANSFORM      ####################
     tabItem(

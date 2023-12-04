@@ -1,44 +1,112 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Patrones Responsive Web Design - 2 Columnas</title>
-    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="Styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioR Insights - Transformando el Análisis Bioinformático</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222d32;
+            color: white;
+        }
 
+        header {
+            background-color: #222d32;
+            color: white;
+            text-align: center;
+            padding: 2em;
+        }
+
+        .logo {
+            max-width: 150px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #222d32;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: rgb(26, 188, 156);
+            margin-bottom: 20px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 18px;
+        }
+
+        .highlight-text {
+            color: rgb(26, 188, 156);
+            font-weight: bold;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            background-color: rgb(26, 188, 156);
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: rgb(22, 160, 133);
+        }
+
+        footer {
+            background-color: #222d32;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
 <body>
-    <h1>Who are involved is BioR Insights?</h1>
-    <div class="contenedor dos-columnas">
-        <article class="entrada-blog">
-            <img src="RicardoSalazar.png">
-            <h2>Ing.Edgar Ricardo Salazar Sesenes</h2>
-            <p>Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus, eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.</p>
-            <a href="https://github.com/RicardoSalazar27">Leer más</a>
-        </article>
-        <article class="entrada-blog">
-            <img src="GaelVillalobos.png">
-            <h2>Ing.Cristian Gael Guerrero Villalobos</h2>
-            <p>Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus, eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.</p>
-            <a href="https://github.com/xtiangro">Leer más</a>
-        </article>
-        <article class="entrada-blog">
-            <img src="MiguelVillalobos.png">
-            <h2>Dr.Miguel Angel Villalobos</h2>
-            <p>Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus, eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.</p>
-            <a href="#">Leer más</a>
-        </article>
-        <article class="entrada-blog">
-            <img src="GaelVillalobos.png">
-            <h2>Dr.Santiago Valentin Galvan Gordillo</h2>
-            <p>Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus, eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.</p>
-            <a href="#">Leer más</a>
-        </article>
-    </div>
+
+    <header>
+        <!-- Coloca aquí tu logotipo -->
+        <img src="logo.png" alt="Logo de BioR Insights" class="logo">
+        <h1>BioR Insights</h1>
+        <p>Transformando el Análisis Bioinformático</p>
+    </header>
+
+    <section>
+        <p>Bienvenido a <span class="highlight-text">BioR Insights</span>, la plataforma que simplifica y democratiza el análisis de datos biológicos. En un mundo donde la bioinformática desempeña un papel crucial, hemos creado una herramienta potente pero fácil de usar para que tanto expertos como principiantes exploren el vasto mundo de la información genómica.</p>
+        
+        <p>Enfrentamos el desafío de hacer que la bioinformática sea <span class="highlight-text">accesible</span> para todos. Nuestra interfaz intuitiva te permite cargar conjuntos de datos biológicos con facilidad y configurar análisis de manera sencilla, sin necesidad de conocimientos especializados.</p>
+
+        <p>¿Qué te ofrece <span class="highlight-text">BioR Insights</span>?</p>
+        <ul>
+            <li><span class="highlight-text">Análisis de Expresión Génica:</span> Comprende la actividad de los genes de manera fácil y efectiva.</li>
+            <li><span class="highlight-text">Agrupamiento Jerárquico:</span> Explora patrones y relaciones en tus datos biológicos.</li>
+            <li><span class="highlight-text">Visualizaciones Impactantes:</span> Gráficos y representaciones visuales para interpretar resultados de manera rápida.</li>
+            <li><span class="highlight-text">Exportación Versátil:</span> Exporta resultados en formatos como CSV, imágenes y documentos PDF.</li>
+        </ul>
+
+        <p>En <span class="highlight-text">BioR Insights</span>, nos apasiona acelerar la <span class="highlight-text">investigación científica</span> al hacer que las herramientas de análisis sean más accesibles. Nuestro enfoque no solo ahorra tiempo, sino que también optimiza los recursos, permitiendo decisiones más rápidas y fundamentadas en la investigación biológica y médica.</p>
+
+        <a href="#contact" class="cta-button">¡Descubre <span class="highlight-text">BioR Insights</span> Ahora!</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 <span class="highlight-text">BioR Insights</span> - Plataforma de Análisis Bioinformático</p>
+    </footer>
 
 </body>
-
 </html>
+ht-t
