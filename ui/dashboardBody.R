@@ -4,10 +4,9 @@
 body <- dashboardBody(
   
   tabItems(
-    
+  
     tabItem(
-      tabName = "wbr",
-      h1("Who the fuck is Diego"),
+      tabName = "wbr"
     ),
     
     
@@ -238,6 +237,107 @@ body <- dashboardBody(
       ),
       plotlyOutput("group_vy"),
       dataTableOutput("gbdataTable")
+    ),
+    
+    tabItem(
+      tabName = "abu",
+      tags$div(
+        tags$h1("Who are involved is BioR Insights?", class = "titulo-principal"),
+        tags$style(HTML("
+      .titulo-principal {
+        font-size: 2rem;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      .imgperfil {
+        max-width: 30%;
+      }
+
+      .subtitulo {
+        font-size: 1.5rem;
+      }
+
+      .contenedor {
+        max-width: 1200px;
+        width: 95%;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .entrada-blog a {
+        display: inline-block;
+        background-color: aliceblue;
+        color: black;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .dos-columnas {
+          display: grid;
+          grid-template-columns: 50% 50%;
+          column-gap: 2rem;
+          padding: 3%;
+          padding-top: 0;
+          width: 80%;
+          height: 40%;
+        }
+
+        .entrada-blog {
+          padding-bottom: 5%;
+        }
+      }
+    ")),
+        tags$div(
+          class = "contenedor dos-columnas",
+          tags$article(
+            class = "entrada-blog",
+            tags$img(src = "RicardoSalazar.png", class = "imgperfil"),
+            tags$h2("Ing.Edgar Ricardo Salazar Sesenes", class = "subtitulo"),
+            tags$p("Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus,
+          eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.", class = "parrafo"),
+            tags$a(href = "https://github.com/RicardoSalazar27", "Leer más", class = "enlace")
+          ),
+          tags$article(
+            class = "entrada-blog",
+            tags$img(src = "GaelVillalobos.png", class = "imgperfil"),
+            tags$h2("Ing.Cristian Gael Guerrero Villalobos", class = "subtitulo"),
+            tags$p("Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus,
+          eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.", class = "parrafo"),
+            tags$a(href = "https://github.com/xtiangro", "Leer más", class = "enlace")
+          ),
+          tags$article(
+            class = "entrada-blog",
+            tags$img(src = "MiguelVillalobos.png", class = "imgperfil"),
+            tags$h2("Dr.Miguel Angel Villalobos", class = "subtitulo"),
+            tags$p("Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus,
+          eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.", class = "parrafo"),
+            tags$a("#", "Leer más", class = "enlace")
+          ),
+          tags$article(
+            class = "entrada-blog",
+            tags$img(src = "GaelVillalobos.png", class = "imgperfil"),
+            tags$h2("Dr.Santiago Valentin Galvan Gordillo", class = "subtitulo"),
+            tags$p("Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus,
+          eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.", class = "parrafo"),
+            tags$a("#", "Leer más", class = "enlace")
+          )
+        )
+      )
     )
     
     

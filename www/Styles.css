@@ -1,0 +1,62 @@
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.5rem;
+}
+
+img {
+    max-width: 30%;
+}
+
+h1{
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+.contenedor {
+    max-width: 1200px;
+    width: 95%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.entrada-blog a {
+    display: inline-block;
+    background-color: aliceblue ;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+/** CODIGO AQUI **/
+
+@media (min-width: 768px) {
+    .dos-columnas{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        column-gap: 2rem; /*separacion de columnas*/
+        padding: 3%;
+        padding-top: 0;
+        width: 60%;
+    }
+    .entrada-blog{
+        padding-bottom: 5%;
+    }
+}

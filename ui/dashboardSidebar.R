@@ -32,7 +32,7 @@ sidebar <- dashboardSidebar(
              menuSubItem("Bubble map", tabName = "bmp", icon = icon("th"))
     ),
     menuItem(text = "Basic Charts", tabName = "bsch",icon = icon("th"),
-             menuSubItem("LinePlots", tabName = "lp", icon = tags$img(src='line-chart.png',height=15)),
+             menuSubItem("LinePlots", tabName = "lp", icon = tags$img(src='linea-puntos.png',height=15)),
              menuSubItem("DotPlots", tabName = "dp", icon = tags$img(src='dotplot.png',height=15))
     ),
     menuItem(text = "Statistical Charts", tabName = "bsch",icon = icon("th"),
@@ -41,6 +41,7 @@ sidebar <- dashboardSidebar(
     ),
     menuItem(text = "Tranform", tabName = "trans",icon = icon("th"),
              menuSubItem("GroupBy", tabName = "gb", icon = tags$img(src='groupby.png',height=15))
-  )
+  ),
+  menuItem(text = "About Us", tabName = "abu",icon = icon("th"))
 )
 )
