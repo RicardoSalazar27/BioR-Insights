@@ -42,6 +42,7 @@ sidebar <- dashboardSidebar(
     menuItem(text = "Tranform", tabName = "trans",icon = icon("th"),
              menuSubItem("GroupBy", tabName = "gb", icon = tags$img(src='groupby.png',height=15))
   ),
+  tags$br(),
   menuItem(text = "About Us", tabName = "abu",icon = icon("th"))
 )
 )

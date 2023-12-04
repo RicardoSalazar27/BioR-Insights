@@ -339,7 +339,5 @@ body <- dashboardBody(
         )
       )
     )
-    
-    
-    )
   )
+)
