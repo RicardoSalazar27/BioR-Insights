@@ -69,6 +69,49 @@ server <- function(input, output, session) {
   
   
   ################      HEATMAP      #####################
+  
+  hm_data <- reactive({
+    req(input$hm_file)
+    read.csv(input$hm_file$datapath)
+  })
+  
+  observe({
+    
+    print(names(hm_data()))
+    updateSelectInput(session, "hm_column_x", choices = names(hm_data()))
+    updateSelectInput(session, "hm_column_y", choices = names(hm_data()))
+    updateSelectInput(session, "hm_column_z", choices = names(hm_data()))
+    
+  })
+  
+  output$heatmap <- renderPlotly({
+    req(input$hm_column_x %in% names(hm_data()))
+    req(input$hm_column_y %in% names(hm_data()))
+    req(input$hm_column_z %in% names(hm_data()))
+    
+    hm_fig <- plot_ly(
+      x = ~hm_data()[, input$hm_column_x],
+      y = ~hm_data()[, input$hm_column_y],
+      z = ~hm_data()[, input$hm_column_z],
+      type = "heatmap",
+      colorscale = input$hm_color_palette
+    )
+    
+    hm_fig <- hm_fig %>% layout(
+      title = paste("Heatmap of", input$hm_column_z),
+      xaxis = list(title = input$hm_column_x),
+      yaxis = list(title = input$hm_column_y)
+    )
+    
+    return(hm_fig)
+    
+  })
+  
+  output$hm_dt <- renderDT({
+    datatable(hm_data())
+    
+  })
+  
   ################      4VENNDIAGRAM        #####################
  
     vd4_data <- reactive({

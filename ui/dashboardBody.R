@@ -135,15 +135,50 @@ body <- dashboardBody(
     
     
     #################   Relaciones y Correlación  ####################
-    
     tabItem(
       
-      tabName = "htm",
+      tabName = "hm",
       
-      h1("Heat Map"),
-      plotOutput("heatmap_plot")
+      fluidRow(
+        column(width = 1,
+      fileInput(
+        "hm_file",
+        label = "Select a CSV file",
+        accept = (".csv")
+      )),
       
-    ),
+      column(width =1, 
+      selectInput(
+        inputId = "hm_column_x",
+        label = "Select X Axis Column",
+        choices = NULL
+      )),
+      
+      column(width =1, 
+      selectInput(
+        inputId = "hm_column_y",
+        label = "Select Y Axis Column",
+        choices = NULL
+      )),
+      column(width =1, 
+      selectInput(
+        inputId = "hm_column_z",
+        label = "Select Z Axis Column",
+        choices = NULL
+      )),
+      column(width =1, 
+      selectInput(
+        inputId = "hm_color_palette",
+        label = "Select Color Palette",
+        choices = c(
+          "Viridis", "YlOrRd", "Blues", "Reds", "Greens",
+          "Purples", "Oranges", "BuGn", "YlGnBu", "RdPu"
+      ))
+      )
+      ),
+        plotlyOutput("heatmap"),
+        DTOutput("hm_dt")
+      ),
     
     #--------------------------------------------------------------------------#
     
@@ -197,6 +232,8 @@ body <- dashboardBody(
       plotOutput("vd4vennPlot"),
       DTOutput("vd4dtable")
         ),
+   
+   
     #--------------------------------------------------------------------------#
     tabItem(
       
