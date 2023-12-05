@@ -6,6 +6,10 @@ library(shinydashboardPlus)
 library(shinyWidgets)
 library(ggplot2)
 library(ggVennDiagram)
+library(heatmaply)
+library(ggdendro)
+library(dendextend)
+library(viridisLite)
 library(plotly)
 library(DT)
 
@@ -112,7 +116,75 @@ server <- function(input, output, session) {
     
   })
   
-  ################      4VENNDIAGRAM        #####################
+  
+  ################   2D VENN DIAGRAM   ###########################
+  
+  vd2_data <- reactive({
+    req(input$vd2_file) 
+    read.csv(input$vd2_file$datapath)
+  })
+  
+  observe({
+    updateSelectInput(session, "vd2_colA", choices = colnames(vd2_data()))
+    updateSelectInput(session, "vd2_colB", choices = colnames(vd2_data()))
+  })
+  
+  output$vd2_plot <- renderPlot({
+    col_names <- c(
+      input$vd2_colA,
+      input$vd2_colB
+    )
+    
+    venn_plot <- ggVennDiagram(
+      x = list(
+        A = vd2_data()[, col_names[1]],
+        B = vd2_data()[, col_names[2]]
+      ),
+      category.names = col_names
+    )
+    
+    venn_plot + scale_fill_distiller(palette = "Reds")
+  })
+  output$vd2_dt <- renderDT({
+    datatable(vd2_data())
+  })
+  
+  
+  ################   3D VENN DIAGRAM   ##########################
+  
+  vd3_data <- reactive({
+    req(input$vd3_file) 
+    read.csv(input$vd3_file$datapath)
+  })
+  
+  observe({
+    updateSelectInput(session, "vd3_colA", choices = colnames(vd3_data()))
+    updateSelectInput(session, "vd3_colB", choices = colnames(vd3_data()))
+    updateSelectInput(session, "vd3_colC", choices = colnames(vd3_data()))
+  })
+  
+  output$vd3vennPlot <- renderPlot({
+    vd3_col_names <- c(
+      input$vd3_colA,
+      input$vd3_colB,
+      input$vd3_colC
+    )
+    
+    vd3venn_Plot <- ggVennDiagram(
+      x = list(
+        A = vd3_data()[, vd3_col_names[1]],
+        B = vd3_data()[, vd3_col_names[2]],
+        C = vd3_data()[, vd3_col_names[3]]
+      ), 
+      category.names = vd3_col_names
+    )
+    vd3venn_Plot + scale_fill_distiller(palette = "RdYlBu")
+  })
+  output$vd3dtable <- renderDT({
+    datatable(vd3_data())
+  })
+  
+  ################      4D VENN DIAGRAM      #####################
  
     vd4_data <- reactive({
       req(input$vd4_file) 
@@ -150,6 +222,46 @@ server <- function(input, output, session) {
       datatable(vd4_data())
     })
   
+  ###################### 5D VENN DIAGRAM ################
+    
+    vd5_data <- reactive({
+      req(input$vd5_file) 
+      read.csv(input$vd5_file$datapath)
+    })
+    
+    observe({
+      updateSelectInput(session, "vd5_colA", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colB", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colC", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colD", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colF", choices = colnames(vd5_data()))
+    })
+    
+    output$vd5_vennPlot <- renderPlot({
+      vd5_col_names <- c(
+        input$vd5_colA,
+        input$vd5_colB,
+        input$vd5_colC,
+        input$vd5_colD,
+        input$vd5_colF
+      )
+      
+      venn_plot <- ggVennDiagram(
+        x = list(
+          A = vd5_data()[, vd5_col_names[1]],
+          B = vd5_data()[, vd5_col_names[2]],
+          C = vd5_data()[, vd5_col_names[3]],
+          D = vd5_data()[, vd5_col_names[4]],
+          f = vd5_data()[, vd5_col_names[5]]
+        ),
+        category.names = vd5_col_names
+      )
+      
+      venn_plot + scale_fill_distiller(palette = "Paired")
+    })
+    output$vd5_dt <- renderDT({
+      datatable(vd5_data())
+    })
   
   ################      UPSET        #####################
   
@@ -247,8 +359,143 @@ server <- function(input, output, session) {
   
   
   ################      PIECHART        #####################
-  ################      STACKED BARPLOT        #####################
-  ################      DENOGRAM        #####################
+  
+  pc_data <- reactive({
+    req(input$pc_file)
+    read.csv(input$pc_file$datapath)
+  })
+  
+  observe({
+    print(names(pc_data()))
+    
+    updateSelectInput(session, "pc_column1", choices = names(pc_data()))
+    updateSelectInput(session, "pc_column2", choices = names(pc_data()))
+    
+  })
+  
+  output$pc_plot <- renderPlotly({
+    
+    req(input$pc_column1 %in% names(pc_data()))
+    req(input$pc_column2 %in% names(pc_data()))
+    
+    pc_fig <- plot_ly(
+      pc_data(),
+      labels = ~get(input$pc_column1),
+      values = ~get(input$pc_column2),
+      type = "pie"
+    )
+    
+    pc_fig <- pc_fig %>% layout(
+      title = paste("Pie Chart by", input$pc_column1, "and", input$pc_column2)
+    )
+    
+    return(pc_fig)
+    
+  })
+  
+  output$pc_dt <- renderDT({
+    datatable(pc_data())
+  })
+  
+  ################      STACKED BAR CHART        #####################
+  
+  sbc_data <- reactive({
+    req(input$sbc_file)
+    read.csv(input$sbc_file$datapath, header = input$header, stringsAsFactors = FALSE)
+  })
+  
+  observe({
+    updateSelectInput(session, "sbc_column1", choices = names(sbc_data()))
+    updateSelectInput(session, "sbc_column2", choices = names(sbc_data()))
+    updateSelectInput(session, "sbc_xlabel", choices = names(sbc_data()))
+  })
+  
+  output$sbc_plot <- renderPlotly({
+    req(sbc_data(), input$sbc_column1, input$sbc_column2, input$sbc_xlabel)
+    
+    sbc_fig <- plot_ly(sbc_data(), x = ~get(input$sbc_xlabel), y = ~get(input$sbc_column1),
+                       type = 'bar', name = input$sbc_column1, marker = list(color = 'rgba(255, 100, 100, 0.7)'),
+                       text = ~paste(input$sbc_column1, ": ", get(input$sbc_column1)))
+    sbc_fig <- sbc_fig %>% add_trace(y = ~get(input$sbc_column2), name = input$sbc_column2, marker = list(color = 'rgba(100, 255, 100, 0.7)'),
+                                     text = ~paste(input$sbc_column2, ": ", get(input$sbc_column2)))
+    sbc_fig <- sbc_fig %>% layout(yaxis = list(title = 'Count'), barmode = 'stack')
+    sbc_fig
+  })
+  output$sbc_dt <- renderDT({
+    datatable(sbc_data())
+  })
+  
+  ################      HEATMAP & DENDROGRAM        #####################
+  
+  hmdgm_data <- reactive({
+    req(input$hmdgm_file)
+    read.csv(input$hmdgm_file$datapath, header = TRUE, row.names = 1)
+  })
+  
+  output$hmdgm_plot <- renderPlotly({
+    
+    row_dend <- as.dendrogram(hclust(dist(hmdgm_data())))
+    col_dend <- as.dendrogram(hclust(dist(t(hmdgm_data()))))
+    
+    hmdgm_selected_palette <- switch(input$hmdgm_palette,
+                               "Viridis" = viridisLite::viridis(100),
+                               "Rocket" = viridisLite::rocket(100),
+                               "Inferno" = viridisLite::inferno(100),
+                               "Magma" = viridisLite::magma(100),
+                               "Cividis" = viridisLite::cividis(100),
+                               "Turbo" =  viridisLite::turbo(100),
+                               "Viridis")
+    heatmaply(
+      hmdgm_data(),
+      Rowv = row_dend,
+      Colv = col_dend,
+      dendrogram = "both",
+      width = 600,
+      height = 500,
+      colors = hmdgm_selected_palette
+    )
+  })
+  output$hmdgm_dt <- renderDT({
+    datatable(hmdgm_data())
+  })
+  
+  ###############   DENDROGRAM   #################
+  
+  ddg_column_options <- reactiveVal()
+  
+  observe({
+    req(input$ddg_file)
+    ddg_data <- read.csv(input$ddg_file$datapath)
+    
+    updateSelectInput(session, "ddg_y_axis", choices = colnames(ddg_data))
+    updateSelectInput(session, "ddg_x_axis", choices = colnames(ddg_data))
+    
+    ddg_column_options(colnames(ddg_data))
+  })
+  
+  output$ddg_plot <- renderPlotly({
+    req(input$ddg_file)
+    ddg_data <- read.csv(input$ddg_file$datapath)
+    
+    hc <- hclust(dist(ddg_data), "ave")
+    p <- ggdendrogram(hc,segments = TRUE,
+                      labels = TRUE, rotate = FALSE, size = 2)
+    
+    ddg_dendro_plotly <- ggplotly(p, tooltip = "text") %>% layout(showlegend = FALSE)
+    
+    y_labels <- ddg_data[[input$ddg_y_axis]]
+    ddg_dendro_plotly <- ddg_dendro_plotly %>% layout(yaxis = list(tickvals = 1:length(y_labels),
+                                                                   ticktext = y_labels,
+                                                                   tickmode = "array"))
+    
+    ddg_x_labels <- ddg_data[[input$ddg_x_axis]]
+    ddg_dendro_plotly <- ddg_dendro_plotly %>% layout(xaxis = list(tickvals = 1:length(ddg_x_labels),
+                                                                   ticktext = ddg_x_labels,
+                                                                   tickmode = "array"))
+    
+    ddg_dendro_plotly
+  })
+  
   ################      Scatter And Line Plot       #####################
   
   slp_data <- reactive({
@@ -269,12 +516,10 @@ server <- function(input, output, session) {
     slp_trace_1 <- rnorm(nrow(slp_data()), mean = 0)
     slp_trace_2 <- rnorm(nrow(slp_data()), mean = -5)
     
-    slp_scatter_type <- if (input$slp_checkbox) 'scatter' else 'scattergl'
-    
-    slp_fig <- plot_ly(x = ~slp_x, y = ~slp_data()[, input$slp_column_y], mode = 'lines', name = input$slp_column_y, type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste(input$slp_column_y, ": ", slp_data()[, input$slp_column_y]))
-    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_0, name = 'Line', mode = 'lines', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_0: ', slp_trace_0))
-    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_1, name = 'Line+Marker', mode = 'lines+markers', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_1: ', slp_trace_1))
-    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_2, name = 'Marker', mode = 'markers', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_2: ', slp_trace_2))
+    slp_fig <- plot_ly(x = ~slp_x, y = ~slp_data()[, input$slp_column_y], mode = 'lines', name = input$column_y)
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_0, name = 'Lines', mode = 'lines')
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_1, name = 'Lines+Markers', mode = 'lines+markers')
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_2, name = 'Markers', mode = 'markers')
     
     slp_fig <- slp_fig %>% layout(
       title = paste("Scatter Plot of", input$slp_column_y),

@@ -135,38 +135,39 @@ body <- dashboardBody(
     
     
     #################   Relaciones y Correlación  ####################
-    tabItem(
+   # heatmap 
+   tabItem(
       
       tabName = "hm",
       
       fluidRow(
-        column(width = 1,
+        column(width = 2,
       fileInput(
         "hm_file",
         label = "Select a CSV file",
         accept = (".csv")
       )),
       
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_column_x",
         label = "Select X Axis Column",
         choices = NULL
       )),
       
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_column_y",
         label = "Select Y Axis Column",
         choices = NULL
       )),
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_column_z",
         label = "Select Z Axis Column",
         choices = NULL
       )),
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_color_palette",
         label = "Select Color Palette",
@@ -209,29 +210,108 @@ body <- dashboardBody(
     ),
     
     #--------------------------------------------------------------------------#
-    tabItem(
+   # 2D VENN DIAGRAM
+   tabItem(
+     tabName = "vd2",
+     fluidRow(
+       column(width = 2,
+              fileInput("vd2_file", "Upload a CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("vd2_colA", "Column A", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd2_colB", "Column B", "")
+       ),
+     ),
+     plotOutput("vd2_plot"),
+     DTOutput("vd2_dt")
+   ),
+   
+   # ---------------------------------------------------------------------------
+   # 3D VENN DIAGRAM
+   tabItem(
+     tabName = "vd3",
+     fluidRow(
+       column(width = 2,
+              fileInput("vd3_file", "Upload a CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("vd3_colA", "Column A", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd3_colB", "Column B", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd3_colC", "Column C", "")
+       ),
+     ),
+     plotOutput("vd3vennPlot"),
+     DTOutput("vd3dtable")
+   ),
+   
+   # ----------------------------------------------------------------------------
+   # 4D Venn Diagram 
+   tabItem(
       
       tabName = "vd4",
       
       fluidRow(
-        column(width = 3,
-               fileInput(inputId = "vd4_file", "Upload CSV file")
+        column(width = 2,
+               fileInput(inputId = "vd4_file", "Upload a CSV file")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colA", "Column A", "")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colB", "Column B", "")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colC", "Column C", "")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colD", "Column D", "")
       )),
       plotOutput("vd4vennPlot"),
       DTOutput("vd4dtable")
         ),
+   # ----------------------------------------------------------------------------
+   # 5D VENN DIAGRAM
+   tabItem(
+     tabName = "vd5",
+     fluidRow(
+       column(width = 2,
+              fileInput("vd5_file", "Upload a CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colA", "Column A", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colB", "Column B", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colC", "Column C", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colD", "Column D", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colF", "Column F", "")
+       ),  
+     ),
+     plotOutput("vd5_vennPlot"),
+     DTOutput("vd5_dt")
+   ),
    
    
     #--------------------------------------------------------------------------#
@@ -284,10 +364,130 @@ body <- dashboardBody(
     
     
     
-    ####################       Parte de un todo    ##########################
-    #################   Evolucion y cambios en el tiempo     #####################
-    
-    
+    ####################       Parte de un todo    ###########################
+   # PieChart
+   tabItem(
+     tabName = "pc",
+     fluidRow(
+     column(width = 2,
+            fileInput(
+              "pc_file",
+              label = "Select a CSV file",
+              accept = c(".csv")
+            )
+     ),
+     
+     column(width = 2,
+            selectInput(
+              inputId = "pc_column1",
+              label = "Column 1",
+              choices = NULL
+            )
+     ),
+     
+     column(width = 2,
+            selectInput(
+              inputId = "pc_column2",
+              label = "Column 2",
+              choices = NULL
+            )
+     ),
+
+     mainPanel(
+       plotlyOutput("pc_plot"),
+       DTOutput("pc_dt")
+     )
+   )),
+   
+   
+   # ---------------------------------------------------------------------------
+   # Stacked Bar Chart
+   
+   tabItem(
+     tabName = "sbc",
+     fluidRow(
+       column(width = 2,
+              fileInput("sbc_file", "Upload CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("sbc_column1", "Select fist data column", "")
+       ),
+       
+       column(width = 2,
+              selectInput("sbc_column2", "Select second data column", "")
+       ),
+       
+       column(width = 2,
+              selectInput("sbc_xlabel", "X Data Labels", "")
+       ),
+       
+       column(width = 2,
+              checkboxInput("header", "Does file have letters?", TRUE)
+       ),
+       
+       mainPanel(
+         plotlyOutput("sbc_plot"),
+         DTOutput("sbc_dt")
+     )
+   )),
+   
+   # --------------------------------------------------------------------------
+   # Heatmap & Dendrogram
+   tabItem(
+     tabName = "hmdgm",
+     fluidRow(
+       column(width = 2,
+              fileInput("hmdgm_file", "Upload CSV file", accept = ".csv"),
+              helpText("Be sure your file has the correct format.")
+       ),
+       
+         column(width = 2,
+                selectInput("hmdgm_palette", "Select color palette:",
+                            choices = c("Viridis", "Rocket", "Inferno", "Magma", "Cividis", "Turbo"),
+                            selected = "Viridis")
+         )),
+                plotlyOutput("hmdgm_plot"),
+                DTOutput("hmdgm_dt")
+         ),
+   
+   # ----------------------------------------------------------------------------
+   # Dendrogram
+   tabItem(
+     tabName = "ddg",
+     fluidRow(
+       column(width = 2,
+              fileInput("ddg_file", "Select CSV file", accept = ".csv")
+       ),
+       
+       column(width = 2,
+              selectInput("ddg_y_axis", "Select column for Y axis", "")
+       ),
+       
+       column(width = 2,
+              selectInput("ddg_x_axis", "Select column for X axis", "")
+       ),
+     ),
+     plotlyOutput("ddg_plot")
+   ),
+   
+   # -----------------------------------------------------------------------------
+    #################   Evolucion y cambios en el tiempo     #################
+   
+   # scatter and line plot
+   tabItem(
+     
+     tabName = "slp",
+     fluidRow(
+       column(width = 2,
+              fileInput("slp_file", "Select a CSV file", accept = (".csv"))),
+       
+       column(width = 2,
+              selectInput("slp_column_y","Select a Column", choices = NULL)),
+     ),
+     plotlyOutput("slp_plot"),
+     DTOutput("slp_table")
+   ),
     
     #############################     Mapas       #############################
     tabItem(
