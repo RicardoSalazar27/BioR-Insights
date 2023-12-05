@@ -21,8 +21,8 @@ sidebar <- dashboardSidebar(
     ),
     menuItem(text = "Parte De un todo", tabName = "pdt", icon = icon("th"),
              menuSubItem("Pie chart", tabName = "pc", icon = tags$img(src='pie-chart.png',height =15)),
-             menuSubItem("Stacked barplot", tabName = "sb", icon = icon("th")),
-             menuSubItem("Denograma", tabName = "den", icon = tags$img(src='denograma.png',height=15))
+             menuSubItem("Stacked barplot", tabName = "sbc", icon = icon("th")),
+             menuSubItem("Dendrogram", tabName = "hmdgm", icon = tags$img(src='denograma.png',height=15))
     ),
     menuItem(text = "Evolution In The Time", tabName = "evt", icon = icon("th"),
              menuSubItem("Scatter And Line Plot", tabName = "slp", icon = tags$img(src='linea-puntos.png',height=15))

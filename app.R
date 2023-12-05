@@ -6,6 +6,9 @@ library(shinydashboardPlus)
 library(shinyWidgets)
 library(ggplot2)
 library(ggVennDiagram)
+library(heatmaply)
+library(dendextend)
+library(viridisLite)
 library(plotly)
 library(DT)
 
@@ -246,8 +249,106 @@ server <- function(input, output, session) {
   
   
   ################      PIECHART        #####################
-  ################      STACKED BARPLOT        #####################
+  
+  pc_data <- reactive({
+    req(input$pc_file)
+    read.csv(input$pc_file$datapath)
+  })
+  
+  observe({
+    print(names(pc_data()))
+    
+    updateSelectInput(session, "pc_column1", choices = names(pc_data()))
+    updateSelectInput(session, "pc_column2", choices = names(pc_data()))
+    
+  })
+  
+  output$pc_plot <- renderPlotly({
+    
+    req(input$pc_column1 %in% names(pc_data()))
+    req(input$pc_column2 %in% names(pc_data()))
+    
+    pc_fig <- plot_ly(
+      pc_data(),
+      labels = ~get(input$pc_column1),
+      values = ~get(input$pc_column2),
+      type = "pie"
+    )
+    
+    pc_fig <- pc_fig %>% layout(
+      title = paste("Pie Chart by", input$pc_column1, "and", input$pc_column2)
+    )
+    
+    return(pc_fig)
+    
+  })
+  
+  output$pc_dt <- renderDT({
+    datatable(pc_data())
+  })
+  
+  ################      STACKED BAR CHART        #####################
+  
+  sbc_data <- reactive({
+    req(input$sbc_file)
+    read.csv(input$sbc_file$datapath, header = input$header, stringsAsFactors = FALSE)
+  })
+  
+  observe({
+    updateSelectInput(session, "sbc_column1", choices = names(sbc_data()))
+    updateSelectInput(session, "sbc_column2", choices = names(sbc_data()))
+    updateSelectInput(session, "sbc_xlabel", choices = names(sbc_data()))
+  })
+  
+  output$sbc_plot <- renderPlotly({
+    req(sbc_data(), input$sbc_column1, input$sbc_column2, input$sbc_xlabel)
+    
+    sbc_fig <- plot_ly(sbc_data(), x = ~get(input$sbc_xlabel), y = ~get(input$sbc_column1),
+                       type = 'bar', name = input$sbc_column1, marker = list(color = 'rgba(255, 100, 100, 0.7)'),
+                       text = ~paste(input$sbc_column1, ": ", get(input$sbc_column1)))
+    sbc_fig <- sbc_fig %>% add_trace(y = ~get(input$sbc_column2), name = input$sbc_column2, marker = list(color = 'rgba(100, 255, 100, 0.7)'),
+                                     text = ~paste(input$sbc_column2, ": ", get(input$sbc_column2)))
+    sbc_fig <- sbc_fig %>% layout(yaxis = list(title = 'Count'), barmode = 'stack')
+    sbc_fig
+  })
+  output$sbc_dt <- renderDT({
+    datatable(sbc_data())
+  })
+  
   ################      DENOGRAM        #####################
+  
+  hmdgm_data <- reactive({
+    req(input$hmdgm_file)
+    read.csv(input$hmdgm_file$datapath, header = TRUE, row.names = 1)
+  })
+  
+  output$hmdgm_plot <- renderPlotly({
+    
+    row_dend <- as.dendrogram(hclust(dist(hmdgm_data())))
+    col_dend <- as.dendrogram(hclust(dist(t(hmdgm_data()))))
+    
+    hmdgm_selected_palette <- switch(input$hmdgm_palette,
+                               "Viridis" = viridisLite::viridis(100),
+                               "Rocket" = viridisLite::rocket(100),
+                               "Inferno" = viridisLite::inferno(100),
+                               "Magma" = viridisLite::magma(100),
+                               "Cividis" = viridisLite::cividis(100),
+                               "Turbo" =  viridisLite::turbo(100),
+                               "Viridis")
+    heatmaply(
+      hmdgm_data(),
+      Rowv = row_dend,
+      Colv = col_dend,
+      dendrogram = "both",
+      width = 600,
+      height = 500,
+      colors = hmdgm_selected_palette
+    )
+  })
+  output$hmdgm_dt <- renderDT({
+    datatable(hmdgm_data())
+  })
+  
   ################      Scatter And Line Plot       #####################
   
   slp_data <- reactive({

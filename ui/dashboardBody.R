@@ -287,6 +287,93 @@ body <- dashboardBody(
     
     
     ####################       Parte de un todo    ###########################
+   # PieChart
+   tabItem(
+     tabName = "pc",
+     fluidRow(
+     column(width = 2,
+            fileInput(
+              "pc_file",
+              label = "Select a CSV file",
+              accept = c(".csv")
+            )
+     ),
+     
+     column(width = 2,
+            selectInput(
+              inputId = "pc_column1",
+              label = "Column 1",
+              choices = NULL
+            )
+     ),
+     
+     column(width = 2,
+            selectInput(
+              inputId = "pc_column2",
+              label = "Column 2",
+              choices = NULL
+            )
+     ),
+
+     mainPanel(
+       plotlyOutput("pc_plot"),
+       DTOutput("pc_dt")
+     )
+   )),
+   
+   
+   # ---------------------------------------------------------------------------
+   # Stacked Bar Chart
+   
+   tabItem(
+     tabName = "sbc",
+     fluidRow(
+       column(width = 2,
+              fileInput("sbc_file", "Upload CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("sbc_column1", "Select fist data column", "")
+       ),
+       
+       column(width = 2,
+              selectInput("sbc_column2", "Select second data column", "")
+       ),
+       
+       column(width = 2,
+              selectInput("sbc_xlabel", "X Data Labels", "")
+       ),
+       
+       column(width = 2,
+              checkboxInput("header", "Does file have letters?", TRUE)
+       ),
+       
+       mainPanel(
+         plotlyOutput("sbc_plot"),
+         DTOutput("sbc_dt")
+     )
+   )),
+   
+   # --------------------------------------------------------------------------
+   # Dendrogram
+   tabItem(
+     tabName = "hmdgm",
+     fluidRow(
+       column(width = 2,
+              fileInput("hmdgm_file", "Upload CSV file", accept = ".csv"),
+              helpText("Be sure your file has the correct format.")
+       ),
+       
+         column(width = 2,
+                selectInput("hmdgm_palette", "Select color palette:",
+                            choices = c("Viridis", "Rocket", "Inferno", "Magma", "Cividis", "Turbo"),
+                            selected = "Viridis")
+         )),
+                plotlyOutput("hmdgm_plot"),
+                DTOutput("hmdgm_dt")
+         ),
+   
+   # ----------------------------------------------------------------------------
    
     #################   Evolucion y cambios en el tiempo     #################
    
