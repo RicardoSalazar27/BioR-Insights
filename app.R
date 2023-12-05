@@ -774,6 +774,7 @@ server <- function(input, output, session) {
           styles = lapply(unique(gbdata()[[input$gbagrupar]]), function(group) {
             list(target = group, value = list(marker = list(color = sample(colors(), 1))))
           })
+          
         )
       )
     )
@@ -797,8 +798,63 @@ server <- function(input, output, session) {
     gbdata()
   })
   
-
+####################### PCA ##############################
+  pca_data <- reactive({
+    req(input$pca_file)
+    read.csv(input$pca_file$datapath)
+  })
   
+  observe({
+    updateSelectInput(session, "pca_x_axis", choices = colnames(pca_data()))
+    updateSelectInput(session, "pca_y_axis", choices = colnames(pca_data()))
+  })
+  
+  output$pcaPlot <- renderPlotly({
+    req(input$pca_x_axis, input$pca_y_axis)
+    
+    pca_X <- subset(pca_data(), select = c(input$pca_x_axis, input$pca_y_axis))
+    prin_comp <- prcomp(pca_X, rank. = 2)
+    components <- prin_comp[["x"]]
+    components <- data.frame(components)
+    
+    explained_variance <- summary(prin_comp)[["sdev"]][1:2]
+    comp <- prin_comp[["rotation"]]
+    loadings <- comp * explained_variance
+    
+    pca_fig <- plot_ly(components, x = ~PC1, y = ~PC2, color = ~pca_data()[[input$pca_y_axis]],
+                       type = 'scatter', mode = 'markers') %>%
+      layout(
+        legend = list(title = list(text = input$pca_y_axis)),
+        plot_bgcolor = '#e5ecf6',
+        xaxis = list(
+          title = input$pca_x_axis,
+          zerolinecolor = "#ffff",
+          zerolinewidth = 2,
+          gridcolor = '#ffff'
+        ),
+        yaxis = list(
+          title = input$pca_y_axis,
+          zerolinecolor = "#ffff",
+          zerolinewidth = 2,
+          gridcolor = '#ffff'
+        )
+      )
+    
+    features <- colnames(pca_X)
+    for (i in seq_along(features)) {
+      pca_fig <- pca_fig %>%
+        add_segments(x = 0, xend = loadings[i, 1], y = 0, yend = loadings[i, 2],
+                     line = list(color = 'black'), inherit = FALSE, showlegend = FALSE) %>%
+        add_annotations(x = loadings[i, 1], y = loadings[i, 2], ax = 0, ay = 0,
+                        text = features[i], xanchor = 'center', yanchor = 'bottom')
+    }
+    
+    pca_fig
+  })
+  
+  output$pca_dt <- renderDT({
+    datatable(pca_data())
+  })
   
     
 }

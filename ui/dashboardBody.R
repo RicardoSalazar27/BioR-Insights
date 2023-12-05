@@ -631,7 +631,23 @@ margin-left: 0;
     
    ##########################################################################
     tabItem(
-      tabName = "pca"),
+      tabName = "pca",
+      fluidRow(
+        column(width = 2,
+               fileInput("pca_file", "Choose a CSV file")
+        ),
+        
+        column(width = 2,
+               selectInput("pca_x_axis", "Choose X-axis:", "")
+        ),
+        
+        column(width = 2,
+               selectInput("pca_y_axis", "Choose Y-axis:", "")
+        ),
+      ),
+      plotlyOutput("pcaPlot"),
+      DTOutput("pca_dt")
+      ),
    #########################################################################
     tabItem(
       tabName = "abu",
