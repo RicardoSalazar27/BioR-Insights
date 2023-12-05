@@ -210,14 +210,60 @@ body <- dashboardBody(
     ),
     
     #--------------------------------------------------------------------------#
-   # Venn Diagram 
+   # 2D VENN DIAGRAM
+   tabItem(
+     tabName = "vd2",
+     fluidRow(
+       column(width = 2,
+              fileInput("vd2_file", "Upload a CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("vd2_colA", "Column A", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd2_colB", "Column B", "")
+       ),
+     ),
+     plotOutput("vd2_plot"),
+     DTOutput("vd2_dt")
+   ),
+   
+   # ---------------------------------------------------------------------------
+   # 3D VENN DIAGRAM
+   tabItem(
+     tabName = "vd3",
+     fluidRow(
+       column(width = 2,
+              fileInput("vd3_file", "Upload a CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("vd3_colA", "Column A", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd3_colB", "Column B", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd3_colC", "Column C", "")
+       ),
+     ),
+     plotOutput("vd3vennPlot"),
+     DTOutput("vd3dtable")
+   ),
+   
+   # ----------------------------------------------------------------------------
+   # 4D Venn Diagram 
    tabItem(
       
       tabName = "vd4",
       
       fluidRow(
         column(width = 2,
-               fileInput(inputId = "vd4_file", "Upload CSV file")
+               fileInput(inputId = "vd4_file", "Upload a CSV file")
         ),
         column(width = 2,
                selectInput(inputId = "vd4_colA", "Column A", "")
@@ -234,6 +280,38 @@ body <- dashboardBody(
       plotOutput("vd4vennPlot"),
       DTOutput("vd4dtable")
         ),
+   # ----------------------------------------------------------------------------
+   # 5D VENN DIAGRAM
+   tabItem(
+     tabName = "vd5",
+     fluidRow(
+       column(width = 2,
+              fileInput("vd5_file", "Upload a CSV file")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colA", "Column A", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colB", "Column B", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colC", "Column C", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colD", "Column D", "")
+       ),
+       
+       column(width = 2,
+              selectInput("vd5_colF", "Column F", "")
+       ),  
+     ),
+     plotOutput("vd5_vennPlot"),
+     DTOutput("vd5_dt")
+   ),
    
    
     #--------------------------------------------------------------------------#

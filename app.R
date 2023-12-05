@@ -115,7 +115,75 @@ server <- function(input, output, session) {
     
   })
   
-  ################      VENN DIAGRAM  4D      #####################
+  
+  ################   2D VENN DIAGRAM   ###########################
+  
+  vd2_data <- reactive({
+    req(input$vd2_file) 
+    read.csv(input$vd2_file$datapath)
+  })
+  
+  observe({
+    updateSelectInput(session, "vd2_colA", choices = colnames(vd2_data()))
+    updateSelectInput(session, "vd2_colB", choices = colnames(vd2_data()))
+  })
+  
+  output$vd2_plot <- renderPlot({
+    col_names <- c(
+      input$vd2_colA,
+      input$vd2_colB
+    )
+    
+    venn_plot <- ggVennDiagram(
+      x = list(
+        A = vd2_data()[, col_names[1]],
+        B = vd2_data()[, col_names[2]]
+      ),
+      category.names = col_names
+    )
+    
+    venn_plot + scale_fill_distiller(palette = "Reds")
+  })
+  output$vd2_dt <- renderDT({
+    datatable(vd2_data())
+  })
+  
+  
+  ################   3D VENN DIAGRAM   ##########################
+  
+  vd3_data <- reactive({
+    req(input$vd3_file) 
+    read.csv(input$vd3_file$datapath)
+  })
+  
+  observe({
+    updateSelectInput(session, "vd3_colA", choices = colnames(vd3_data()))
+    updateSelectInput(session, "vd3_colB", choices = colnames(vd3_data()))
+    updateSelectInput(session, "vd3_colC", choices = colnames(vd3_data()))
+  })
+  
+  output$vd3vennPlot <- renderPlot({
+    vd3_col_names <- c(
+      input$vd3_colA,
+      input$vd3_colB,
+      input$vd3_colC
+    )
+    
+    vd3venn_Plot <- ggVennDiagram(
+      x = list(
+        A = vd3_data()[, vd3_col_names[1]],
+        B = vd3_data()[, vd3_col_names[2]],
+        C = vd3_data()[, vd3_col_names[3]]
+      ), 
+      category.names = vd3_col_names
+    )
+    vd3venn_Plot + scale_fill_distiller(palette = "RdYlBu")
+  })
+  output$vd3dtable <- renderDT({
+    datatable(vd3_data())
+  })
+  
+  ################      4D VENN DIAGRAM      #####################
  
     vd4_data <- reactive({
       req(input$vd4_file) 
@@ -153,6 +221,46 @@ server <- function(input, output, session) {
       datatable(vd4_data())
     })
   
+  ###################### 5D VENN DIAGRAM ################
+    
+    vd5_data <- reactive({
+      req(input$vd5_file) 
+      read.csv(input$vd5_file$datapath)
+    })
+    
+    observe({
+      updateSelectInput(session, "vd5_colA", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colB", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colC", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colD", choices = colnames(vd5_data()))
+      updateSelectInput(session, "vd5_colF", choices = colnames(vd5_data()))
+    })
+    
+    output$vd5_vennPlot <- renderPlot({
+      vd5_col_names <- c(
+        input$vd5_colA,
+        input$vd5_colB,
+        input$vd5_colC,
+        input$vd5_colD,
+        input$vd5_colF
+      )
+      
+      venn_plot <- ggVennDiagram(
+        x = list(
+          A = vd5_data()[, vd5_col_names[1]],
+          B = vd5_data()[, vd5_col_names[2]],
+          C = vd5_data()[, vd5_col_names[3]],
+          D = vd5_data()[, vd5_col_names[4]],
+          f = vd5_data()[, vd5_col_names[5]]
+        ),
+        category.names = vd5_col_names
+      )
+      
+      venn_plot + scale_fill_distiller(palette = "Paired")
+    })
+    output$vd5_dt <- renderDT({
+      datatable(vd5_data())
+    })
   
   ################      UPSET        #####################
   
