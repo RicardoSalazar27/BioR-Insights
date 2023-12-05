@@ -64,7 +64,6 @@ body <- dashboardBody(
               " Exporta resultados en formatos como CSV, imágenes y documentos PDF."
             )
           ),
-          
           tags$div(
             class = "custom-p",
             "En ",
@@ -123,11 +122,36 @@ body <- dashboardBody(
         color: #222d32;
         font-weight: bold;
       }
+      .highlight-text2{
+        color: white;
+        font-weight : bold;
+      }
       
       .custom-list li {
          margin :1%;
          font-size : 105%;
       }
+      .custom-footer {
+          background-color: #222d32;
+          color: white;
+          padding: 1em 0;
+          text-align: center;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          padding-right:8%
+      }
+.content {
+    min-height: 250px;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0px;
+    padding-right: 15px;
+}
+.row{
+margin-left: 0;
+}
     " )
      )
     )
@@ -708,6 +732,14 @@ body <- dashboardBody(
           )
         )
       )
+    )
+  ),
+  tags$div(
+    class = "custom-footer",
+    tags$p(
+      "&copy; 2023 ",
+      tags$span("BioR Insights", class = "highlight-text2"),
+      " - Plataforma de Análisis Bioinformático"
     )
   )
 )

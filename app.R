@@ -30,7 +30,6 @@ server <- function(input, output, session) {
   
   options(shiny.maxRequestSize = 500 * 1024^2)  # Establecer el límite de carga en 500 MB
   
-  
 
   ######################       SCATTERPLOT        #########################
   sctdata <- reactive({
