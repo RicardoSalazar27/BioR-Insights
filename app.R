@@ -111,7 +111,7 @@ server <- function(input, output, session) {
     
   })
   
-  ################      4VENNDIAGRAM        #####################
+  ################      VENN DIAGRAM  4D      #####################
  
     vd4_data <- reactive({
       req(input$vd4_file) 
@@ -268,12 +268,10 @@ server <- function(input, output, session) {
     slp_trace_1 <- rnorm(nrow(slp_data()), mean = 0)
     slp_trace_2 <- rnorm(nrow(slp_data()), mean = -5)
     
-    slp_scatter_type <- if (input$slp_checkbox) 'scatter' else 'scattergl'
-    
-    slp_fig <- plot_ly(x = ~slp_x, y = ~slp_data()[, input$slp_column_y], mode = 'lines', name = input$slp_column_y, type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste(input$slp_column_y, ": ", slp_data()[, input$slp_column_y]))
-    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_0, name = 'Line', mode = 'lines', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_0: ', slp_trace_0))
-    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_1, name = 'Line+Marker', mode = 'lines+markers', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_1: ', slp_trace_1))
-    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_2, name = 'Marker', mode = 'markers', type = slp_scatter_type, hoverinfo = 'y+text', text = ~paste('slp_trace_2: ', slp_trace_2))
+    slp_fig <- plot_ly(x = ~slp_x, y = ~slp_data()[, input$slp_column_y], mode = 'lines', name = input$column_y)
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_0, name = 'Lines', mode = 'lines')
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_1, name = 'Lines+Markers', mode = 'lines+markers')
+    slp_fig <- slp_fig %>% add_trace(x = ~slp_x, y = ~slp_trace_2, name = 'Markers', mode = 'markers')
     
     slp_fig <- slp_fig %>% layout(
       title = paste("Scatter Plot of", input$slp_column_y),

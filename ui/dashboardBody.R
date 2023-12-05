@@ -135,38 +135,39 @@ body <- dashboardBody(
     
     
     #################   Relaciones y Correlación  ####################
-    tabItem(
+   # heatmap 
+   tabItem(
       
       tabName = "hm",
       
       fluidRow(
-        column(width = 1,
+        column(width = 2,
       fileInput(
         "hm_file",
         label = "Select a CSV file",
         accept = (".csv")
       )),
       
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_column_x",
         label = "Select X Axis Column",
         choices = NULL
       )),
       
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_column_y",
         label = "Select Y Axis Column",
         choices = NULL
       )),
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_column_z",
         label = "Select Z Axis Column",
         choices = NULL
       )),
-      column(width =1, 
+      column(width = 2, 
       selectInput(
         inputId = "hm_color_palette",
         label = "Select Color Palette",
@@ -209,24 +210,25 @@ body <- dashboardBody(
     ),
     
     #--------------------------------------------------------------------------#
-    tabItem(
+   # Venn Diagram 
+   tabItem(
       
       tabName = "vd4",
       
       fluidRow(
-        column(width = 3,
+        column(width = 2,
                fileInput(inputId = "vd4_file", "Upload CSV file")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colA", "Column A", "")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colB", "Column B", "")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colC", "Column C", "")
         ),
-        column(width = 3,
+        column(width = 2,
                selectInput(inputId = "vd4_colD", "Column D", "")
       )),
       plotOutput("vd4vennPlot"),
@@ -284,10 +286,24 @@ body <- dashboardBody(
     
     
     
-    ####################       Parte de un todo    ##########################
-    #################   Evolucion y cambios en el tiempo     #####################
-    
-    
+    ####################       Parte de un todo    ###########################
+   
+    #################   Evolucion y cambios en el tiempo     #################
+   
+   # scatter and line plot
+   tabItem(
+     
+     tabName = "slp",
+     fluidRow(
+       column(width = 2,
+              fileInput("slp_file", "Select a CSV file", accept = (".csv"))),
+       
+       column(width = 2,
+              selectInput("slp_column_y","Select a Column", choices = NULL)),
+     ),
+     plotlyOutput("slp_plot"),
+     DTOutput("slp_table")
+   ),
     
     #############################     Mapas       #############################
     tabItem(
