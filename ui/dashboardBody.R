@@ -724,7 +724,7 @@ margin-left: 0;
           ),
           tags$article(
             class = "entrada-blog",
-            tags$img(src = "GaelVillalobos.png", class = "imgperfil"),
+            tags$img(src = "ValentinGordillo.png", class = "imgperfil"),
             tags$h2("Dr.Santiago Valentin Galvan Gordillo", class = "subtitulo"),
             tags$p("Maecenas maximus urna vitae nisl semper, id volutpat ipsum scelerisque. Aenean nec ipsum finibus,
           eleifend dolor at, venenatis risus. Quisque varius orci et augue scelerisque luctus.", class = "parrafo"),
