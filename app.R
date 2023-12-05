@@ -13,7 +13,6 @@ library(viridisLite)
 library(plotly)
 library(DT)
 
-
 # Cargar el código de los nuevos archivos
 source("ui/dashboardHeader.R")
 source("ui/dashboardSidebar.R")
