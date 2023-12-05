@@ -355,7 +355,7 @@ body <- dashboardBody(
    )),
    
    # --------------------------------------------------------------------------
-   # Dendrogram
+   # Heatmap & Dendrogram
    tabItem(
      tabName = "hmdgm",
      fluidRow(
@@ -374,7 +374,26 @@ body <- dashboardBody(
          ),
    
    # ----------------------------------------------------------------------------
+   # Dendrogram
+   tabItem(
+     tabName = "ddg",
+     fluidRow(
+       column(width = 2,
+              fileInput("ddg_file", "Select CSV file", accept = ".csv")
+       ),
+       
+       column(width = 2,
+              selectInput("ddg_y_axis", "Select column for Y axis", "")
+       ),
+       
+       column(width = 2,
+              selectInput("ddg_x_axis", "Select column for X axis", "")
+       ),
+     ),
+     plotlyOutput("ddg_plot")
+   ),
    
+   # -----------------------------------------------------------------------------
     #################   Evolucion y cambios en el tiempo     #################
    
    # scatter and line plot

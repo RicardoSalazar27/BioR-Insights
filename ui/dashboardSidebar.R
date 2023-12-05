@@ -19,10 +19,11 @@ sidebar <- dashboardSidebar(
     menuItem(text = "Clasificacion y ranking", tabName = "cry", icon = icon("th"),
              menuSubItem("Bar chart", tabName = "bc", icon = tags$img(src='bar-chart.png',height=15))
     ),
-    menuItem(text = "Parte De un todo", tabName = "pdt", icon = icon("th"),
-             menuSubItem("Pie chart", tabName = "pc", icon = tags$img(src='pie-chart.png',height =15)),
-             menuSubItem("Stacked barplot", tabName = "sbc", icon = icon("th")),
-             menuSubItem("Dendrogram", tabName = "hmdgm", icon = tags$img(src='denograma.png',height=15))
+    menuItem(text = "Part Of a Whole", tabName = "pdt", icon = icon("th"),
+             menuSubItem("Pie Chart", tabName = "pc", icon = tags$img(src='pie-chart.png',height =15)),
+             menuSubItem("Stacked Bar Chart", tabName = "sbc", icon = icon("th")),
+             menuSubItem("HeatMap & Dendrogram", tabName = "hmdgm", icon = tags$img(src='denograma.png',height=15)),
+             menuSubItem("Dendrogram", tabName = "ddg", icon = tags$img(src='denograma.png',height=15))
     ),
     menuItem(text = "Evolution In The Time", tabName = "evt", icon = icon("th"),
              menuSubItem("Scatter And Line Plot", tabName = "slp", icon = tags$img(src='linea-puntos.png',height=15))

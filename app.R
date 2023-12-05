@@ -7,6 +7,7 @@ library(shinyWidgets)
 library(ggplot2)
 library(ggVennDiagram)
 library(heatmaply)
+library(ggdendro)
 library(dendextend)
 library(viridisLite)
 library(plotly)
@@ -315,7 +316,7 @@ server <- function(input, output, session) {
     datatable(sbc_data())
   })
   
-  ################      DENOGRAM        #####################
+  ################      HEATMAP & DENDROGRAM        #####################
   
   hmdgm_data <- reactive({
     req(input$hmdgm_file)
@@ -347,6 +348,43 @@ server <- function(input, output, session) {
   })
   output$hmdgm_dt <- renderDT({
     datatable(hmdgm_data())
+  })
+  
+  ###############   DENDROGRAM   #################
+  
+  ddg_column_options <- reactiveVal()
+  
+  observe({
+    req(input$ddg_file)
+    ddg_data <- read.csv(input$ddg_file$datapath)
+    
+    updateSelectInput(session, "ddg_y_axis", choices = colnames(ddg_data))
+    updateSelectInput(session, "ddg_x_axis", choices = colnames(ddg_data))
+    
+    ddg_column_options(colnames(ddg_data))
+  })
+  
+  output$ddg_plot <- renderPlotly({
+    req(input$ddg_file)
+    ddg_data <- read.csv(input$ddg_file$datapath)
+    
+    hc <- hclust(dist(ddg_data), "ave")
+    p <- ggdendrogram(hc,segments = TRUE,
+                      labels = TRUE, rotate = FALSE, size = 2)
+    
+    ddg_dendro_plotly <- ggplotly(p, tooltip = "text") %>% layout(showlegend = FALSE)
+    
+    y_labels <- ddg_data[[input$ddg_y_axis]]
+    ddg_dendro_plotly <- ddg_dendro_plotly %>% layout(yaxis = list(tickvals = 1:length(y_labels),
+                                                                   ticktext = y_labels,
+                                                                   tickmode = "array"))
+    
+    ddg_x_labels <- ddg_data[[input$ddg_x_axis]]
+    ddg_dendro_plotly <- ddg_dendro_plotly %>% layout(xaxis = list(tickvals = 1:length(ddg_x_labels),
+                                                                   ticktext = ddg_x_labels,
+                                                                   tickmode = "array"))
+    
+    ddg_dendro_plotly
   })
   
   ################      Scatter And Line Plot       #####################
