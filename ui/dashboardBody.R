@@ -213,16 +213,16 @@ margin-left: 0;
       
       fluidRow(
         column(width = 3,
-               fileInput(inputId = "sctFile", label = "Cargar Archivo", accept = ".csv,.xlsx", placeholder = "DIEGO ES GAY")
+               fileInput(inputId = "sctFile", label = "Select a CSV file", accept = ".csv,.xlsx", placeholder = "No file selected")
         ),
         column(width = 3,
-               selectInput(inputId = "sctcolorColumn", label = "Columna para Colores", choices = NULL)
+               selectInput(inputId = "sctcolorColumn", label = "Column for coloring", choices = NULL)
         ),
         column(width = 3,
-               selectInput(inputId = "slitpx", label = "Eje x", choices = NULL)
+               selectInput(inputId = "slitpx", label = "Axis x", choices = NULL)
         ),
         column(width = 3,
-               selectInput(inputId = "slitpy", label = "Eje y", choices = NULL)
+               selectInput(inputId = "slitpy", label = "Axis y", choices = NULL)
         )
       )
       ,
@@ -335,11 +335,11 @@ margin-left: 0;
       
       tabName = "upt",
       fluidRow(
-        column(width = 4,fileInput("usfile", "Seleccione un archivo CSV")
+        column(width = 4,fileInput("usfile", "Select a CSV file")
         ),
-        column(width = 4,selectInput("usvar_set", "Seleccione las variables para el UpSet", choices = NULL, multiple = TRUE)
+        column(width = 4,selectInput("usvar_set", "Select the variables for the UpSet", choices = NULL, multiple = TRUE)
         ),
-        column(width = 4,actionButton("update_plot", "Actualizar Gráfico"))
+        column(width = 4,actionButton("update_plot", "Update Upset"))
       ),
       #downloadButton("download_plot", "Descargar Gráfico"),
       
@@ -359,16 +359,16 @@ margin-left: 0;
       
       fluidRow(
         column(width = 3,
-               fileInput(inputId = "bc_file", label = "Cargar archivo CSV", accept = ".csv")
+               fileInput(inputId = "bc_file", label = "Select a CSV file", accept = ".csv")
         ),
         column(width = 3,
-               selectInput(inputId = "bc_x_col", label = "Seleccionar columna para el eje X", choices = NULL)
+               selectInput(inputId = "bc_x_col", label = "Select column for X axis", choices = NULL)
         ),
         column(width = 3,
-               selectInput(inputId = "bc_y_col", label = "Seleccionar columna para el eje Y", choices = NULL)
+               selectInput(inputId = "bc_y_col", label = "Select column for Y axis", choices = NULL)
         ),
         column(width = 3,
-               selectInput(inputId = "bc_color_col", label = "Seleccionar columna para la coloración", "")
+               selectInput(inputId = "bc_color_col", label = "Select column for coloring", "")
         )
       ),
       plotlyOutput("bc_bar_chart"),
@@ -510,19 +510,22 @@ margin-left: 0;
       tabName = "bmp",
       fluidRow(
         column(width = 3,
-               selectInput("bbmx_var", "Seleccionar variable para el eje X", "")
+               selectInput("bbmx_var", "Select variable for the X axis", "")
         ),
         column(width = 3,
-               selectInput("bbmy_var", "Seleccionar variable para el eje Y", "")
+               selectInput("bbmy_var", "Select variable for the Y axis", "")
         ),
         column(width = 3,
-               selectInput("bbmcolor_var", "Seleccionar variable para la coloración", "")
+               selectInput("bbmcolor_var", "Select column for coloring", "")
         ),
         column(width = 3,
-               selectInput("bbmsize_var", "Seleccionar variable para el tamaño de las burbujas", "")
+               selectInput("bbmsize_var", "Select variable for bubble size", "")
         )
       ),
-      fileInput("bbm_file", "Cargar archivo CSV"),
+      fluidRow(
+        column(width = 3, 
+               fileInput("bbm_file", "Select a CSV file"))
+      ),
       plotlyOutput("bubbleChart"),
       DTOutput("bubbledataTable")
     ),
@@ -538,16 +541,16 @@ margin-left: 0;
       tabName = "lp",
       fluidRow(
         column(width = 3,
-               fileInput("lp_file", "Subir archivo CSV")
+               fileInput("lp_file", "Select a CSV file")
         ),
         column(width = 3,
-               checkboxInput("lp_header", "¿El archivo tiene encabezados?", TRUE)
+               checkboxInput("lp_header", "The file has header?", TRUE)
         ),
         column(width = 3,
-               selectInput("lpx_column", "Seleccionar columna para el eje X", "")
+               selectInput("lpx_column", "Select variable for the X axis", "")
         ),
         column(width = 3,
-               selectInput("lpy_column", "Seleccionar columna para el eje Y", "")
+               selectInput("lpy_column", "Select variable for the y axis", "")
         )
       ),
       plotlyOutput("lp_plot"),
@@ -558,24 +561,24 @@ margin-left: 0;
       tabName = "dp",
       fluidRow(
         column(width = 3,
-               fileInput("dpfile", "Subir archivo CSV")
+               fileInput("dpfile", "Select a CSV file")
         ),
         column(width = 3,
-               selectInput("dpx_axis", "Seleccionar eje x", "")
+               selectInput("dpx_axis", "Select variable for the X axis", "")
         ),
         column(width = 3,
-               selectInput("dpy_axis", "Seleccionar eje y", "")
+               selectInput("dpy_axis", "Select variable for the y axis", "")
         ),
         column(width = 3,
-               selectInput("dpadditional_trace", "Agregar traza adicional", "")
+               selectInput("dpadditional_trace", "Add additional trace", "")
         )
       ),
       fluidRow(
         column(width = 3,
-               textInput("dptextinput","ingresa el titulo de tu grafica",placeholder = "titulo")
+               textInput("dptextinput","Enter title for the graph",placeholder = "titulo")
         ),
         column(width = 3,
-               actionButton("dpupdate_plot", "Actualizar gráfico")
+               actionButton("dpupdate_plot", "Update")
         )
       ),
       plotlyOutput("customDotPlot"),
@@ -592,9 +595,9 @@ margin-left: 0;
     tabItem(
       tabName = "his",
       fluidRow(
-        column(width = 4,fileInput("hisfile", "Selecciona un archivo CSV")),
-        column(width = 4,selectInput("hiscolumna", "Selecciona una columna", "")),
-        column(width = 4,helpText("Nota: Asegúrate de que el archivo tenga una columna numérica para el histograma."))
+        column(width = 4,fileInput("hisfile", "Select a CSV file")),
+        column(width = 4,selectInput("hiscolumna", "Select a column", "")),
+        column(width = 4,helpText("Note: Make sure the file has a numeric column for the histogram."))
       ),
       plotlyOutput("histograma"),
       dataTableOutput("hisdataTable")
@@ -604,10 +607,10 @@ margin-left: 0;
     tabItem(
       tabName = "bp",
       fluidRow(
-        column(width = 3,fileInput("bpfile", "Seleccionar archivo CSV", accept = ".csv")),
-        column(width = 3,selectInput("bpbpx_axis", "Seleccionar eje X:", "")),
-        column(width = 3,selectInput("bpy_axis", "Seleccionar eje Y:", "")),
-        column(width = 3,selectInput("bpcategory_var", "Seleccionar variable categórica:", ""))
+        column(width = 3,fileInput("bpfile", "Select a CSV file", accept = ".csv")),
+        column(width = 3,selectInput("bpbpx_axis", "Select variable for the X axis:", "")),
+        column(width = 3,selectInput("bpy_axis", "Select variable for the Y axis", "")),
+        column(width = 3,selectInput("bpcategory_var", "Select categorical variable:", ""))
       ),
       plotlyOutput("bpboxplot"),
       DTOutput("bp_dataTable")
@@ -620,10 +623,10 @@ margin-left: 0;
     tabItem(
       tabName = "gb",
       fluidRow(
-        column(width = 3,fileInput("gbfile", "Subir archivo CSV")),
-        column(width = 3,selectInput("gbx_axis", "Selecciona el eje X:", "")),
-        column(width = 3,selectInput("gby_axis", "Selecciona el eje Y:", "")),
-        column(width = 3,selectInput("gbagrupar", "Agrupar por:", ""))
+        column(width = 3,fileInput("gbfile", "Select a CSV file")),
+        column(width = 3,selectInput("gbx_axis", "Select variable for the X axis:", "")),
+        column(width = 3,selectInput("gby_axis", "Select variable for the y axis", "")),
+        column(width = 3,selectInput("gbagrupar", "Gropu by:", ""))
       ),
       plotlyOutput("group_vy"),
       dataTableOutput("gbdataTable")

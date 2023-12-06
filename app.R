@@ -12,7 +12,6 @@ library(dendextend)
 library(viridisLite)
 library(plotly)
 library(DT)
-
 # Cargar el código de los nuevos archivos
 source("ui/dashboardHeader.R")
 source("ui/dashboardSidebar.R")
@@ -286,7 +285,7 @@ server <- function(input, output, session) {
     # Seleccionar las variables elegidas por el usuario
     selected_vars <- usdata() %>% select(input$usvar_set)
     
-    # Crear el gráfico UpSetR y ordenar "intersection size" de manera decreciente
+    # Crear el gráfico UpSetR y ornar "intersection size" de manera decreciente
     upset(selected_vars, main.bar.color = "gray30", matrix.color = "lightgray", order.by = "freq", decreasing = TRUE)
   })
   
@@ -423,7 +422,7 @@ server <- function(input, output, session) {
     datatable(sbc_data())
   })
   
-  ################      HEATMAP & DENDROGRAM        #####################
+  ################      HEATMAP & nDROGRAM        #####################
   
   hmdgm_data <- reactive({
     req(input$hmdgm_file)
@@ -432,8 +431,8 @@ server <- function(input, output, session) {
   
   output$hmdgm_plot <- renderPlotly({
     
-    row_dend <- as.dendrogram(hclust(dist(hmdgm_data())))
-    col_dend <- as.dendrogram(hclust(dist(t(hmdgm_data()))))
+    row_nd <- as.dendrogram(hclust(dist(hmdgm_data())))
+    col_nd <- as.dendrogram(hclust(dist(t(hmdgm_data()))))
     
     hmdgm_selected_palette <- switch(input$hmdgm_palette,
                                "Viridis" = viridisLite::viridis(100),
@@ -445,9 +444,9 @@ server <- function(input, output, session) {
                                "Viridis")
     heatmaply(
       hmdgm_data(),
-      Rowv = row_dend,
-      Colv = col_dend,
-      dendrogram = "both",
+      Rowv = row_nd,
+      Colv = col_nd,
+      ndrogram = "both",
       width = 600,
       height = 500,
       colors = hmdgm_selected_palette
@@ -457,7 +456,7 @@ server <- function(input, output, session) {
     datatable(hmdgm_data())
   })
   
-  ###############   DENDROGRAM   #################
+  ###############   nDROGRAM   #################
   
   ddg_column_options <- reactiveVal()
   
@@ -476,22 +475,22 @@ server <- function(input, output, session) {
     ddg_data <- read.csv(input$ddg_file$datapath)
     
     hc <- hclust(dist(ddg_data), "ave")
-    p <- ggdendrogram(hc,segments = TRUE,
+    p <- ggndrogram(hc,segments = TRUE,
                       labels = TRUE, rotate = FALSE, size = 2)
     
-    ddg_dendro_plotly <- ggplotly(p, tooltip = "text") %>% layout(showlegend = FALSE)
+    ddg_ndro_plotly <- ggplotly(p, tooltip = "text") %>% layout(showlegend = FALSE)
     
     y_labels <- ddg_data[[input$ddg_y_axis]]
-    ddg_dendro_plotly <- ddg_dendro_plotly %>% layout(yaxis = list(tickvals = 1:length(y_labels),
+    ddg_ndro_plotly <- ddg_ndro_plotly %>% layout(yaxis = list(tickvals = 1:length(y_labels),
                                                                    ticktext = y_labels,
                                                                    tickmode = "array"))
     
     ddg_x_labels <- ddg_data[[input$ddg_x_axis]]
-    ddg_dendro_plotly <- ddg_dendro_plotly %>% layout(xaxis = list(tickvals = 1:length(ddg_x_labels),
+    ddg_ndro_plotly <- ddg_ndro_plotly %>% layout(xaxis = list(tickvals = 1:length(ddg_x_labels),
                                                                    ticktext = ddg_x_labels,
                                                                    tickmode = "array"))
     
-    ddg_dendro_plotly
+    ddg_ndro_plotly
   })
   
   ################      Scatter And Line Plot       #####################
